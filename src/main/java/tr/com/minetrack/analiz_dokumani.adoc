@@ -1,0 +1,69 @@
+= MINETRACK PROJESI: _Yazılım İhtiyaçları Analiz Dokümanı_
+
+'''
+
+. *Giriş*
+ 
+Bu, Minetrack sisteminin yazılım ihtiyaçları dokümanıdır. Dokümanda önce +
+fonksiyonel ihtiyaçlar sonrada fonksiyonel olmayan ihtiyaçlar bulunmaktadır.
+
+. *Fonksiyonel İhtiyaçlar*
+
+Fonksiyonel ihtiyaçlar, sistemin dışarıdan gözlemlenebilen davranışlarıdır. +
+Fonksiyonel ihtiyaçlar ağırlıkla sistemin iş süreçlerini içerir. Süreçler ise +
+bu dokümanda kullanım şekli(use case) olarak yakalanıp detaylandırılmışlardır. +
+Süreçlerde geçen ve sistemin fonksiyonel özellikleri olarak görülebilecek +
+tekil fonksiyonel ihtiyaçlar süreçlerden sonra maddeler halinde ifade edilmiştir.
+
+.. _Sistemin Süreçleri_
+
+Sistemin iş süreçleri kullanım şekilleri olarak ifade edilmişlerdir. Aşağıda +
+kullanım şekilleri önce UML’in kullanım şekli diyagramında gösterilmişlerdir. +
+Sonrasında ise kullanım şekilleri önce kavramsal olarak sıralanmışlardır daha +
+sonra da detaylı olarak verilmişlerdir.
+
+[plantuml]
+....
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor customer
+rectangle Minetrack{
+  (sisteme gir) -- admin
+  (sistemden cik) -- admin
+  customer -- (harita ekle/sil)
+  (harita ekle/sil) -- admin
+  customer -- (personel ekle/sil)
+  (personel ekle/sil) -- admin
+  (personel ekle/sil) .> (etiket ekle/sil) : include
+  customer -- (terminal durumu)
+  (terminal durumu) -- admin
+  customer -- (okuyucu durumu)
+  (okuyucu durumu) -- admin
+  customer -- (puantaj)
+  (puantaj) -- admin
+  customer -- (rapor)
+  (rapor) -- admin
+  customer --  (start/stop)
+  (start/stop) -- admin
+  (lisansı yönet) -- admin
+  (ayarları gir) -- admin
+}
+@enduml
+....
+
+.. _Kavramsal Kullanım Şekilleri_
+
+Kavramsal kullanım şekilleri (conceptual use cases), sistemin süreçlerini, akış +
+detaylarına girmeden özet olarak verir.
+
+Kavramsal kullanım şekilleri şunlardır:
+[cols="1,4"]
+|===  
+//-------------
+|*No*   			|1   
+|*Isim*   			|Sisteme Gir
+|*Aktör(ler)*   	|Admin
+|*Kısa* *Açıklama*  |Aktör sisteme giriş yapar
+|===
+
