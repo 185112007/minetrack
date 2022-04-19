@@ -1,6 +1,10 @@
+# eclipse generated files
 .classpath
 .metadata
 .project
 .settings
 *.log
 target
+
+# idea generated files
+.idea
