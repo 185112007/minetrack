@@ -56,7 +56,7 @@ public class SignalList {
 				return;
 			else
 				currentReader = RFIDReaderList.getInstance().getList().get(ridInt);
-			// System.out.println("ReaderID:" + rid);
+//			 System.out.println("ReaderID:" + rid);
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 			return;
@@ -95,6 +95,7 @@ public class SignalList {
 		boolean positioned = false;
 		DateTime dt = new DateTime();
 		if (istracked) {
+
 			Signal signal = new Signal(rssi, dt, ridInt, tagid);
 
 			if (DAOHelper.getSignalDAO().insert(signal)) {
@@ -107,6 +108,7 @@ public class SignalList {
 				// System.out.println(newnow.getMillis()-ThreadManager.now.getMillis());
 
 				if (positioned) {
+					System.out.println("positioned");
 					HashMap<Integer, Tracked> mapOfTracked = TrackedList.getInstance().getList();
 					parent.getFrame().setTrackedModel(mapOfTracked);
 				}

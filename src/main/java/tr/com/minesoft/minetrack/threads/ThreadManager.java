@@ -45,8 +45,8 @@ public class ThreadManager {
 			};
 			// Schedule to run after every 5 minut(240000 millisecond)
 			timer.scheduleAtFixedRate(timerTask, 0, 240000);
-			writer = new Thread(new WriteService());				//------------------------------------passif icin
-			writer.start();											//------------------------------------passif icin
+//			writer = new Thread(new WriteService());				//------------------------------------passif icin
+//			writer.start();											//------------------------------------passif icin
 			reader = new Thread(new ReadService());
 			reader.start();
 			parent.enableStopBtn();
@@ -90,7 +90,7 @@ public class ThreadManager {
 
 		// timer.cancel();
 		try {
-			writer.join();				//------------------------------------------------passif icin
+//			writer.join();				//------------------------------------------------passif icin
 			reader.join();
 			parent.enableStartBtn();
 		} catch (InterruptedException e) {
