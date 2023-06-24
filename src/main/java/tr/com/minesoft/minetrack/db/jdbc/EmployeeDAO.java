@@ -104,7 +104,7 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 	public HashMap<Integer, Employee> get(String[] params) {
 		HashMap<Integer, Employee> employeeMap = new HashMap<>();
 
-		String sqlQuery = "SELECT tcno, fname, lname, role, tagid FROM public.employee";
+		String sqlQuery = "SELECT tcno, fname, lname, role, tagid FROM employee";
 		
 		try (Connection con = PostgreSQL.getInstance().getConnection();
 				Statement statement = con.createStatement();

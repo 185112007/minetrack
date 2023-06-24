@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: pg_minetrack
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
@@ -165,7 +162,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	public HashMap<String, SignalMap> get(String[] params) {
 		HashMap<String, SignalMap> signalMap = new LinkedHashMap<>();
 
-		String sqlQuery = "SELECT pid, rid, minrssi, maxrssi FROM public.signalmap";
+		String sqlQuery = "SELECT pid, rid, minrssi, maxrssi FROM signalmap";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;

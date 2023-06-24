@@ -45,7 +45,7 @@ public class AccountDAO implements DAO<Account, Integer> {
 	public HashMap<Integer, Account> get(String[] params) {
 		HashMap<Integer, Account> accountMap = new HashMap<>();
 
-		String sqlQuery = "SELECT * FROM public.account";
+		String sqlQuery = "SELECT * FROM account";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;

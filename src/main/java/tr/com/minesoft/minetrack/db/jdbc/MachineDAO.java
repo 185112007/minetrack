@@ -106,7 +106,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 	public HashMap<Integer, Machine> get(String[] params) {
 		HashMap<Integer, Machine> machineMap = new HashMap<>();
 
-		String sqlQuery = "SELECT mno, fname, lname, role, tagid FROM public.machine";
+		String sqlQuery = "SELECT mno, fname, lname, role, tagid FROM machine";
 		
 		try (Connection con = PostgreSQL.getInstance().getConnection();
 				Statement statement = con.createStatement();
