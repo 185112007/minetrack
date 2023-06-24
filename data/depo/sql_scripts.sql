@@ -13,12 +13,7 @@ CREATE TABLE account
     password character varying(50) NOT NULL,
     CONSTRAINT account_pkey PRIMARY KEY (user_id),
     CONSTRAINT account_username_key UNIQUE (username)
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE account
-    OWNER TO postgres;
+);
 
 -- table: employee--------------------------------------------------
 
@@ -31,12 +26,7 @@ CREATE TABLE employee
     tagid numeric NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (tcno),
     CONSTRAINT employee_tagid_key UNIQUE (tagid)
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE employee
-    OWNER TO postgres;
+);
 
 -- Table: license-----------------------------------------------------
 
@@ -44,12 +34,7 @@ CREATE TABLE license
 (
     licensekey character varying(12) NOT NULL,
     licensevalue character varying(24) NOT NULL
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE license
-    OWNER TO postgres;
+);
 
 -- default licensekey = 'aP2dg/Hfp8g='
 -- for creating new licensevalue use DesEncrypter class
@@ -65,12 +50,7 @@ CREATE TABLE machine
     tagid numeric NOT NULL,
     CONSTRAINT machine_pkey PRIMARY KEY (mno),
     CONSTRAINT machine_tagid_key UNIQUE (tagid)
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE machine
-    OWNER TO postgres;
+);
 
 -- Table: signal------------------------------------------------------
 
@@ -80,12 +60,7 @@ CREATE TABLE signal
     rid numeric,
     tid numeric,
     rssi numeric
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE signal
-    OWNER TO postgres;
+);
 
 -- Table: signalmap----------------------------------------------------
 
@@ -95,12 +70,7 @@ CREATE TABLE signalmap
     rid numeric,
     minrssi numeric,
     maxrssi numeric
-)
-    WITH (
-        OIDS=FALSE
-        );
-ALTER TABLE signalmap
-    OWNER TO postgres;
+);
 
 
 --insert new account
@@ -135,3 +105,4 @@ VALUES
 ;
 
 ------------------------------------------------------------------------
+SELECT pid, rid, minrssi, maxrssi FROM signalmap;
