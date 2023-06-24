@@ -19,8 +19,8 @@ import tr.com.minesoft.minetrack.model.lists.SignalList;
 
 public class DataTerminal {
     // instance variables
-    private final String ip = "192.168.3.3";
-    private final int portNumber = 4001;
+    private final String ip = "192.168.0.7";
+    private final int portNumber = 26;
 
     private volatile boolean state;
 
@@ -141,9 +141,7 @@ public class DataTerminal {
 
                     Thread.sleep(50);
                     Thread.yield();
-                } catch (IOException e) {
-                    LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
-                } catch (InterruptedException e) {
+                } catch (IOException | InterruptedException e) {
                     LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
                 }
             }
@@ -152,29 +150,27 @@ public class DataTerminal {
 
     public void read() {
         int beginChar;
-        List<Integer> bytes = new ArrayList<Integer>();
+        List<Integer> bytes;
 
         try {
             if (input.available() == 0) {
-
                 return;
             }
 
             beginChar = input.read();
+            System.out.println(Integer.toHexString(beginChar));
+
             if (beginChar == 0x40) {
-//                System.out.println(Integer.toHexString(beginChar));
                 input.read();// datalength
                 bytes = readBytesX40();
                 SignalList.getInstance().add(bytes);
             } else if (beginChar == 0x43) {
-
                 input.read();// datalength
                 bytes = readBytes();
                 if (calcXorAndCheck(bytes)) {
                     SignalList.getInstance().add(bytes);
                 }
             } else if (beginChar == 0x7E) {
-
                 input.read();// data length 14byte
                 bytes = read433();
                 SignalList.getInstance().add(bytes);
@@ -182,7 +178,6 @@ public class DataTerminal {
         } catch (IOException e) {
             LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
         }
-
     }
 
     void printBytes(List<Integer> bytes, String callMethod) {
@@ -233,7 +228,7 @@ public class DataTerminal {
             bytes.add(input.read());
 
             // tagid
-            for (int i=0; i<4; i++){
+            for (int i = 0; i < 4; i++) {
                 bytes.add(input.read());
             }
 
@@ -265,49 +260,6 @@ public class DataTerminal {
             result = result ^ arr.get(i);
         }
         return result == arr.get(9);
-    }
-
-    private List<Integer> read14Bytes() {
-
-        List<Integer> bytes = new ArrayList<Integer>();
-
-        for (int i = 0; i < 14; i++) {
-            try {
-                bytes.add(input.read());
-            } catch (IOException e) {
-                LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
-            }
-        }
-        // printBytes(bytes, "read14Bytes");
-        // remove unnecessary bytes
-        for (int i = 0; i < 5; i++) {
-            try {
-                bytes.remove(9);
-            } catch (IndexOutOfBoundsException e) {
-                LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
-            }
-        }
-        int state = bytes.get(8);
-        try {
-            bytes.remove(8);
-        } catch (IndexOutOfBoundsException e1) {
-            LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e1));
-        }
-        bytes.add(4, state);
-        // bytes.add(4, 0);
-        //
-
-        // also read check code and end code
-        int checkcode;
-        try {
-            checkcode = input.read();
-            bytes.add(checkcode);// check code
-
-            bytes.add(input.read());// end code
-        } catch (IOException e) {
-            LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
-        }
-        return bytes;
     }
 
     private List<Integer> read433() {
