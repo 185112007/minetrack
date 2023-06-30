@@ -157,27 +157,62 @@ public class DataTerminal {
                 return;
             }
 
-            beginChar = input.read();
-            System.out.println(Integer.toHexString(beginChar));
+//            beginChar = input.read();
+//            System.out.println(Integer.toHexString(beginChar));
 
-            if (beginChar == 0x40) {
-                input.read();// datalength
-                bytes = readBytesX40();
-                SignalList.getInstance().add(bytes);
-            } else if (beginChar == 0x43) {
-                input.read();// datalength
-                bytes = readBytes();
-                if (calcXorAndCheck(bytes)) {
-                    SignalList.getInstance().add(bytes);
-                }
-            } else if (beginChar == 0x7E) {
-                input.read();// data length 14byte
-                bytes = read433();
-                SignalList.getInstance().add(bytes);
-            }
+            byte[] buffer = new byte[43];
+            int read;
+            read = input.read(buffer);
+            String output = new String(buffer, 0, read);
+//            System.out.print(output);
+//            System.out.flush();
+
+            analyzeInput(output);
+
+//            if (beginChar == 0x40) {
+//                input.read();// datalength
+//                bytes = readBytesX40();
+//                SignalList.getInstance().add(bytes);
+//            } else if (beginChar == 0x43) {
+//                input.read();// datalength
+//                bytes = readBytes();
+//                if (calcXorAndCheck(bytes)) {
+//                    SignalList.getInstance().add(bytes);
+//                }
+//            } else if (beginChar == 0x7E) {
+//                input.read();// data length 14byte
+//                bytes = read433();
+//                SignalList.getInstance().add(bytes);
+//            }
         } catch (IOException e) {
             LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
         }
+    }
+
+    private void analyzeInput(String str){
+        String[] splitted = str.split(",");
+        System.out.println("data:");
+        if (splitted.length > 2){
+            System.out.println("S/N: " + splitted[1]);
+            System.out.println("RSSI: " + extractRssiValue(splitted));
+            System.out.println("TagID: " + extractTagId(splitted));
+        }
+
+        System.out.println();
+    }
+
+    private String extractTagId(String[] splitted) {
+        if (splitted[2].length() > 14){
+            return splitted[2].substring(4, 14);
+        }
+        throw new RuntimeException("tag id not found");
+    }
+
+    private String extractRssiValue(String[] splitted) {
+        if (splitted[2].length() > 2){
+            return splitted[2].substring(0, 2);
+        }
+        throw new RuntimeException("rssi not found");
     }
 
     void printBytes(List<Integer> bytes, String callMethod) {
