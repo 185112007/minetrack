@@ -62,6 +62,16 @@ CREATE TABLE signal
     rssi numeric
 );
 
+-- Table: signal_model------------------------------------------------------
+
+CREATE TABLE signal_model
+(
+    date_time timestamp without time zone,
+    rid varchar(30),
+    tid varchar(30),
+    rssi numeric
+);
+
 -- Table: signalmap----------------------------------------------------
 
 CREATE TABLE signalmap
@@ -71,7 +81,6 @@ CREATE TABLE signalmap
     minrssi numeric,
     maxrssi numeric
 );
-
 
 --insert new account
 INSERT INTO account(

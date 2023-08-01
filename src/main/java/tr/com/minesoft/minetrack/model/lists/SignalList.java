@@ -3,6 +3,7 @@ package tr.com.minesoft.minetrack.model.lists;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.joda.time.DateTime;
@@ -98,7 +99,7 @@ public class SignalList {
 
 			Signal signal = new Signal(rssi, dt, ridInt, tagid);
 
-			if (DAOHelper.getSignalDAO().insert(signal)) {
+			if (Objects.requireNonNull(DAOHelper.getSignalDAO()).insert(signal)) {
 				RidAndTid key = new RidAndTid(ridInt, tagid);
 
 				signalmap.put(key, signal);
@@ -112,7 +113,6 @@ public class SignalList {
 					HashMap<Integer, Tracked> mapOfTracked = TrackedList.getInstance().getList();
 					parent.getFrame().setTrackedModel(mapOfTracked);
 				}
-
 			}
 		}
 		currentReader.setDt(new DateTime());

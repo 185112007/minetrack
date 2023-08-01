@@ -10,13 +10,7 @@ import org.joda.time.DateTime;
 import tr.com.minesoft.minetrack.helpers.TimeAndRid;
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
-import tr.com.minesoft.minetrack.model.Account;
-import tr.com.minesoft.minetrack.model.Employee;
-import tr.com.minesoft.minetrack.model.License;
-import tr.com.minesoft.minetrack.model.Machine;
-import tr.com.minesoft.minetrack.model.Signal;
-import tr.com.minesoft.minetrack.model.SignalMap;
-import tr.com.minesoft.minetrack.model.Tracked;
+import tr.com.minesoft.minetrack.model.*;
 
 /**
  * @author Gafur Hayytbayev
@@ -52,6 +46,21 @@ public class DAOHelper {
 			 * interface sinifini implements etmis bir nesne olusturur.
 			 */
 			return ((DAO<Signal, String>) Class.forName(PropertyHandler.getProperty("dao.impl.signal"))
+					.getDeclaredConstructor().newInstance());
+		} catch (Exception e) {
+			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static DAO<SignalModel, String> getSignalRepo() {
+		try {
+			/**
+			 * dao.properties icinde yer alan dao.impl anahtarinin degerini okuyarak, DAO
+			 * interface sinifini implements etmis bir nesne olusturur.
+			 */
+			return ((DAO<SignalModel, String>) Class.forName(PropertyHandler.getProperty("dao.impl.signal_model"))
 					.getDeclaredConstructor().newInstance());
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
