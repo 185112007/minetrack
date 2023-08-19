@@ -30,13 +30,13 @@ public class DAOHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static DAO<Employee, Integer> getEmployeeDAO() {
+	public static DAO<Employee, String> getEmployeeDAO() {
 		try {
 			/**
 			 * dao.properties icinde yer alan dao.impl anahtarinin degerini okuyarak, DAO
 			 * interface sinifini implements etmis bir nesne olusturur.
 			 */
-			return ((DAO<Employee, Integer>) Class.forName(PropertyHandler.getProperty("dao.impl.employee"))
+			return ((DAO<Employee, String>) Class.forName(PropertyHandler.getProperty("dao.impl.employee"))
 					.getDeclaredConstructor().newInstance());
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
@@ -60,13 +60,13 @@ public class DAOHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static DAO<Tracked, Integer> getTrackedDAO() {
+	public static DAO<Tracked, String> getTrackedDAO() {
 		try {
 			/**
 			 * dao.properties icinde yer alan dao.impl anahtarinin degerini okuyarak, DAO
 			 * interface sinifini implements etmis bir nesne olusturur.
 			 */
-			return ((DAO<Tracked, Integer>) Class.forName(PropertyHandler.getProperty("dao.impl.tracked"))
+			return ((DAO<Tracked, String>) Class.forName(PropertyHandler.getProperty("dao.impl.tracked"))
 					.getDeclaredConstructor().newInstance());
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
@@ -120,13 +120,13 @@ public class DAOHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static DAO<Machine, Integer> getMachineDAO() {
+	public static DAO<Machine, String> getMachineDAO() {
 		try {
 			/**
 			 * dao.properties icinde yer alan dao.impl anahtarinin degerini okuyarak, DAO
 			 * interface sinifini implements etmis bir nesne olusturur.
 			 */
-			return ((DAO<Machine, Integer>) Class.forName(PropertyHandler.getProperty("dao.impl.machine"))
+			return ((DAO<Machine, String>) Class.forName(PropertyHandler.getProperty("dao.impl.machine"))
 					.getDeclaredConstructor().newInstance());
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
@@ -150,13 +150,13 @@ public class DAOHelper {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static DAO<TimeAndRid, Integer> getDetailedReportDAO() {
+	public static DAO<TimeAndRid, String> getDetailedReportDAO() {
 		try {
 			/**
 			 * dao.properties icinde yer alan dao.impl anahtarinin degerini okuyarak, DAO
 			 * interface sinifini implements etmis bir nesne olusturur.
 			 */
-			return ((DAO<TimeAndRid, Integer>) Class.forName(PropertyHandler.getProperty("dao.impl.detailed"))
+			return ((DAO<TimeAndRid, String>) Class.forName(PropertyHandler.getProperty("dao.impl.detailed"))
 					.getDeclaredConstructor().newInstance());
 		} catch (Exception e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));

@@ -6,6 +6,7 @@ package tr.com.minesoft.minetrack.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -101,7 +102,7 @@ public class SettingsViewController implements ActionListener {
 
 		SignalMap sm = null;
 		try {
-			sm = new SignalMap(Integer.valueOf(parent.getPidChoice()), Integer.parseInt(parent.getRidChoice()),
+			sm = new SignalMap(Integer.valueOf(parent.getPidChoice()), parent.getRidChoice(),
 					Integer.parseInt(parent.getMinRssiTextField().getText()),
 					Integer.parseInt(parent.getMaxRssiTextField().getText()));
 		} catch (NumberFormatException e) {
@@ -136,17 +137,17 @@ public class SettingsViewController implements ActionListener {
 		if (selectedRow >= 0) {
 			// table data
 			int pid = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
-			int rid = Integer.parseInt(model.getValueAt(selectedRow, 1).toString());
+			String rid = model.getValueAt(selectedRow, 1).toString();
 			int minrssi = Integer.parseInt(model.getValueAt(selectedRow, 2).toString());
 			int maxrssi = Integer.parseInt(model.getValueAt(selectedRow, 3).toString());
 
 			int pidText = Integer.parseInt(parent.getPidChoice());
-			int ridText = Integer.parseInt(parent.getRidChoice());
+			String ridText = parent.getRidChoice();
 			int minrssiText = Integer.parseInt(parent.getMinRssiTextField().getText());
 			int maxrssiText = Integer.parseInt(parent.getMaxRssiTextField().getText());
 
 			// eski verilerde degisiklik var mi?
-			if (pid != pidText || rid != ridText || minrssi != minrssiText || maxrssi != maxrssiText) {
+			if (pid != pidText || !Objects.equals(rid, ridText) || minrssi != minrssiText || maxrssi != maxrssiText) {
 				// update islemi basariyla gerceklesti mi?
 				if (SignalMapList.getInstance().update(new SignalMap(pidText, ridText, minrssiText, maxrssiText))) {
 					model.setValueAt(pidText, selectedRow, 0);

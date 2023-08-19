@@ -37,8 +37,8 @@ public class SignalDAO implements DAO<Signal, String> {
 			prepStatement = con.prepareStatement(sqlInsertQueryV2);
 
 			prepStatement.setTimestamp(1, timeStamp);
-			prepStatement.setInt(2, signal.getRid());
-			prepStatement.setInt(3, signal.getTid());
+			prepStatement.setString(2, signal.getRid());
+			prepStatement.setString(3, signal.getTid());
 			prepStatement.setInt(4, signal.getRssi());
 
 			prepStatement.executeUpdate();
@@ -87,7 +87,7 @@ public class SignalDAO implements DAO<Signal, String> {
 	}
 
 	@Override
-	public ArrayList<Signal> get(int tid, DateTime dt1, DateTime dt2) {
+	public ArrayList<Signal> get(String tid, DateTime dt1, DateTime dt2) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -3,27 +3,20 @@ package tr.com.minesoft.minetrack.model;
 import org.joda.time.DateTime;
 
 public class RFIDReader {
-
-	private int readerId;
+	private final String readerId;
 	private String readerName;
-
 	private double x;
 	private double y;
-
 	private int gate; // if 1 is gate, 0 is not
-
 	private boolean state;
-
 	private DateTime dt; // for storing current time
 
-	// constructor
-	public RFIDReader(int id, double x, double y) {
+	public RFIDReader(String id, double x, double y) {
 		this.readerId = id;
 		this.x = x;
 		this.y = y;
 	}
 
-	// setters and getters for x and y
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -40,8 +33,7 @@ public class RFIDReader {
 		return this.y;
 	}
 
-	// getter for id
-	public int getId() {
+	public String getId() {
 		return this.readerId;
 	}
 

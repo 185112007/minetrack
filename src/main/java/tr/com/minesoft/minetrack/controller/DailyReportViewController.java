@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -97,11 +98,11 @@ public class DailyReportViewController implements ActionListener {
 			//System.out.println("true");
 
 			//
-			HashMap<Integer, Tracked> trackedList = TrackedList.getInstance().getList();
+			HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
 
 			for (DateTime date1 = dt1; date1.isBefore(dt2.plusDays(1)); date1 = date1.plusDays(1)) {
 				int countOfRows = 0;
-				for (Integer tid : trackedList.keySet()) {
+				for (String tid : trackedList.keySet()) {
 					Tracked tracked = trackedList.get(tid);
 
 					// tid belli
@@ -110,8 +111,8 @@ public class DailyReportViewController implements ActionListener {
 					DateTime date2 = date1.plusDays(1);
 					String dateStr1 = outputFormatter.print(date1);
 					String dateStr2 = outputFormatter.print(date2);
-					HashMap<Integer, DateTime> dates = DAOHelper.getDailyReportDAO()
-							.get(new String[] { "" + tid, dateStr1, dateStr2 });
+					HashMap<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
+							.get(new String[] {tid, dateStr1, dateStr2 });
 
 					if (!dates.isEmpty()) {
 						DateTimeFormatter toHourWithMinute = DateTimeFormat.forPattern("HH:mm:ss");

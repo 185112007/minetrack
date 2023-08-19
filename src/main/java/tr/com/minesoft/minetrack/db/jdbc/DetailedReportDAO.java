@@ -15,7 +15,7 @@ import tr.com.minesoft.minetrack.helpers.TimeAndRid;
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 
-public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
+public class DetailedReportDAO implements DAO<TimeAndRid, String> {
 
 	@Override
 	public boolean insert(TimeAndRid t) {
@@ -30,19 +30,19 @@ public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
+	public boolean delete(ArrayList<String> list) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, TimeAndRid> get(String[] params) {
+	public HashMap<String, TimeAndRid> get(String[] params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<TimeAndRid> get(int tid, DateTime dt1, DateTime dt2) {
+	public ArrayList<TimeAndRid> get(String tid, DateTime dt1, DateTime dt2) {
 
 		ArrayList<TimeAndRid> list = new ArrayList<>();
 
@@ -62,7 +62,7 @@ public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
 			while (rs.next()) {
 				Timestamp timeStamp = rs.getTimestamp("time");
 				DateTime dt = new DateTime(timeStamp);
-				int readerID = rs.getInt("rid");
+				String readerID = rs.getString("rid");
 				list.add(new TimeAndRid(dt, readerID));
 			}
 
