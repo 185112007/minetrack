@@ -7,9 +7,7 @@ import tr.com.minesoft.minetrack.model.RFIDReader;
 public class RFIDReaderList {
 	private final static RFIDReaderList readerListInstance = new RFIDReaderList();
 
-	private HashMap<Integer, RFIDReader> mapOfReaders = new HashMap<>();
-
-	// private constructor
+	private final HashMap<String, RFIDReader> mapOfReaders = new HashMap<>();
 	private RFIDReaderList() {
 	}
 
@@ -17,11 +15,11 @@ public class RFIDReaderList {
 		return readerListInstance;
 	}
 
-	public HashMap<Integer, RFIDReader> getList() {
+	public HashMap<String, RFIDReader> getList() {
 		return mapOfReaders;
 	}
 
-	public void putToMap(int id, RFIDReader r) {
+	public void putToMap(String id, RFIDReader r) {
 		mapOfReaders.put(id, r);
 	}
 }

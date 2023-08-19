@@ -1,6 +1,6 @@
 -- Database: minetrack---------------------------------------------
 
-CREATE DATABASE minetrack;
+-- CREATE DATABASE minetrack;
 
 \c minetrack;
 
@@ -23,7 +23,7 @@ CREATE TABLE employee
     fname character varying(30) NOT NULL,
     lname character varying(30) NOT NULL,
     role character varying(20),
-    tagid numeric NOT NULL,
+    tagid character varying(20) NOT NULL,
     CONSTRAINT employee_pkey PRIMARY KEY (tcno),
     CONSTRAINT employee_tagid_key UNIQUE (tagid)
 );
@@ -47,7 +47,7 @@ CREATE TABLE machine
     fname character varying(30) NOT NULL,
     lname character varying(30) NOT NULL,
     role character varying(20),
-    tagid numeric NOT NULL,
+    tagid character varying(20) NOT NULL,
     CONSTRAINT machine_pkey PRIMARY KEY (mno),
     CONSTRAINT machine_tagid_key UNIQUE (tagid)
 );
@@ -57,8 +57,8 @@ CREATE TABLE machine
 CREATE TABLE signal
 (
     "time" timestamp without time zone,
-    rid numeric,
-    tid numeric,
+    rid character varying(20),
+    tid character varying(20),
     rssi numeric
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE signal
 CREATE TABLE signalmap
 (
     pid numeric,
-    rid numeric,
+    rid character varying(20),
     minrssi numeric,
     maxrssi numeric
 );
@@ -81,27 +81,15 @@ VALUES (0, 'admin', 'admin');
 -- insert license
 INSERT INTO license(
     licensekey, licensevalue)
-VALUES ('aP2dg/Hfp8g=', 'nNt/M9A/Hpd8yviXZ6uFYQ==');
+VALUES ('aP2dg/Hfp8g=', 'nNt/M9A/Hpcp1BXXjDZ1HQ==');
 
 -- insert signal positions to signalmap
 INSERT INTO signalmap(
     pid, rid, minrssi, maxrssi)
 VALUES
-    (0, 190258, -120, -75),
-    (1, 190258, -74, 0),
-    (2, 190258, -120, -75),
-
-    (3, 190281, -120, -75),
-    (4, 190281, -74, 0),
-    (5, 190281, -120, -75),
-
-    (6, 190266, -120, -75),
-    (7, 190266, -74, 0),
-    (8, 190266, -120, -75),
-
-    (9, 190274, -120, -75),
-    (10, 190274, -74, 0),
-    (11, 190274, -120, -75)
+    (0, '242303240010', -120, -75),
+    (1, '242303240010', -74, 0),
+    (2, '242303240010', -120, -75)
 ;
 
 ------------------------------------------------------------------------

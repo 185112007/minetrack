@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -133,9 +134,8 @@ public class DetailedReportView extends JDialog {
 
 		adSoyad = new JComboBox<>();
 
-		HashMap<Integer, Tracked> trackedList = TrackedList.getInstance().getList();
-		for (Integer tid : trackedList.keySet()) {
-
+		HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
+		for (String tid : trackedList.keySet()) {
 			adSoyad.addItem(trackedList.get(tid));
 		}
 
@@ -215,7 +215,7 @@ public class DetailedReportView extends JDialog {
 	 * @param model
 	 */
 	private void addDataTo(DefaultTableModel model) {
-		HashMap<Integer, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 
 		// tarih sorgu yap
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(Messages.getString("DailyReportView.datepattern"));
@@ -226,16 +226,16 @@ public class DetailedReportView extends JDialog {
 		String[] parts = nameSpaceSurname.split(" ");
 		String fname = parts[0];
 		String lname = parts[1];
-		int tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
+		String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-		ArrayList<TimeAndRid> list = DAOHelper.getDetailedReportDAO().get(tid, dt1, dt2);
+		ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
 		for (TimeAndRid o : list) {
 
 			DateTimeFormatter toHourWithMinute = DateTimeFormat
 					.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
 			String time = toHourWithMinute.print(o.getDt());
-			int rid = o.getRid();
+			String rid = o.getRid();
 			String readerName = mapOfReaders.get(rid).getName();
 
 			model.addRow(new Object[] { time, readerName });

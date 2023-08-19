@@ -22,5 +22,5 @@ public interface DAO<T, V>
 
     HashMap<V, T> get(String[] params);
     
-    ArrayList<T> get(int tid, DateTime dt1, DateTime dt2);
+    ArrayList<T> get(String tid, DateTime dt1, DateTime dt2);
 }

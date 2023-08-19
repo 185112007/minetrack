@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -77,7 +78,7 @@ public class DetailedReportController implements ActionListener {
 	}
 
 	private void showPersonelReport(final DefaultTableModel model) {
-		HashMap<Integer, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 
 		model.setRowCount(0);
 
@@ -91,16 +92,16 @@ public class DetailedReportController implements ActionListener {
 		String[] parts = nameSpaceSurname.split(" ");
 		String fname = parts[0];
 		String lname = parts[1];
-		int tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
+		String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-		ArrayList<TimeAndRid> list = DAOHelper.getDetailedReportDAO().get(tid, dt1, dt2);
+		ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
 		for (TimeAndRid o : list) {
 
 			DateTimeFormatter toHourWithMinute = DateTimeFormat
 					.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
 			String time = toHourWithMinute.print(o.getDt());
-			int rid = o.getRid();
+			String rid = o.getRid();
 			String readerName = mapOfReaders.get(rid).getName();
 
 			model.addRow(new Object[] { time, readerName });

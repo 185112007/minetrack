@@ -72,9 +72,9 @@ public class AddEmployeeView extends JDialog {
 		model.addColumn(Messages.getString("AddEmployeeView.role"));
 		model.addColumn(Messages.getString("AddEmployeeView.tagid"));
 
-		HashMap<Integer, Employee> tagIdList = EmployeeList.getInstance().getList();
+		HashMap<String, Employee> tagIdList = EmployeeList.getInstance().getList();
 
-		for (Integer tid : tagIdList.keySet()) {
+		for (String tid : tagIdList.keySet()) {
 			Employee emp = tagIdList.get(tid);
 			model.addRow(new Object[] { emp.getTcno(), emp.getFname(), emp.getLname(), emp.getRole(), emp.getTagId() });
 		}

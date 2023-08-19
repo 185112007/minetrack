@@ -20,22 +20,16 @@ import tr.com.minesoft.minetrack.model.lists.TrackedList;
 import tr.com.minesoft.minetrack.view.UI;
 
 public class ThreadManager {
-	private static Timer timer;
-	private static TimerTask timerTask;
-
 	private static Thread reader;
 
-	private static Thread writer;			// ---------------------------------------------passif icin
-
 	public static void startServices(UI parent) {
-
-		// connect to data terminal
 		DataTerminal.getInstance().connect();
 		if (DataTerminal.getInstance().getState()) {
 			SignalList.getInstance().setParent(parent);
-			timer = new Timer();
+			Timer timer = new Timer();
 			// create timer task
-			timerTask = new TimerTask() {
+			// en son kapıdan almıssa ve 5 dk icinde sinyal almamıssa sil
+			TimerTask timerTask = new TimerTask() {
 
 				@Override
 				public void run() {
@@ -45,8 +39,6 @@ public class ThreadManager {
 			};
 			// Schedule to run after every 5 minut(240000 millisecond)
 			timer.scheduleAtFixedRate(timerTask, 0, 240000);
-//			writer = new Thread(new WriteService());				//------------------------------------passif icin
-//			writer.start();											//------------------------------------passif icin
 			reader = new Thread(new ReadService());
 			reader.start();
 			parent.enableStopBtn();
@@ -56,7 +48,6 @@ public class ThreadManager {
 	}
 
 	public static void stopService(UI parent) {
-		// update state of terminal
 		DataTerminal.getInstance().disconnect();
 
 		// clear signal list
@@ -64,8 +55,8 @@ public class ThreadManager {
 		mapOfSignalList.clear();
 
 		// update state of tracked
-		HashMap<Integer, Tracked> mapOfTracked = TrackedList.getInstance().getList();
-		for (Integer key : mapOfTracked.keySet()) {
+		HashMap<String, Tracked> mapOfTracked = TrackedList.getInstance().getList();
+		for (String key : mapOfTracked.keySet()) {
 			Tracked tr = mapOfTracked.get(key);
 			tr.setState(false);
 			tr.setKonum("");
@@ -74,8 +65,8 @@ public class ThreadManager {
 		}
 
 		// update state of readers
-		HashMap<Integer, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
-		for (Integer key : mapOfReaders.keySet()) {
+		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		for (String key : mapOfReaders.keySet()) {
 			RFIDReader r = mapOfReaders.get(key);
 			r.setStatus(false);
 		}
@@ -90,7 +81,6 @@ public class ThreadManager {
 
 		// timer.cancel();
 		try {
-//			writer.join();				//------------------------------------------------passif icin
 			reader.join();
 			parent.enableStartBtn();
 		} catch (InterruptedException e) {

@@ -41,11 +41,7 @@ public class FileOp {
 	private final static String READER_PATH = "data/maps/readers.shp";
 	private final static String SIGNAL_PATH = "data/maps/sinyal.shp";
 
-	static StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory();
-	static FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory();
-
 	public static void loadFiles(MapContent map) {
-
 		// harita
 		File file1 = new File(MAP_PATH);
 		FileDataStore store;
@@ -60,7 +56,6 @@ public class FileOp {
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
-
 		// readers
 		File file2 = new File(READER_PATH);
 		FileDataStore store2;
@@ -95,13 +90,11 @@ public class FileOp {
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
-
 		// konum
 		map.addLayer(MapOperations.createEmptyLayer());
 	}
 
 	private static Style createStyleForReaders() {
-
 		// label for readers
 		StyleBuilder styleBuilder = new StyleBuilder();
 		String attributeName = "Location";
@@ -126,30 +119,23 @@ public class FileOp {
 
 	private static void setReaderList(SimpleFeatureSource featureSource) throws IOException {
 		RFIDReaderList readerListInstance = RFIDReaderList.getInstance();
-
 		FeatureIterator<SimpleFeature> featureIterator = featureSource.getFeatures().features();
 
 		SimpleFeature feature;
 		List<?> list;
-		int id;
+		String id;
 		RFIDReader r;
 		while (featureIterator.hasNext()) {
 			feature = featureIterator.next();
-			/*
-			 * System.out.print(feature.getID()); System.out.print(": ");
-			 */
-
 			list = feature.getAttributes();
-			id = Integer.parseInt(list.get(1).toString());
-
+			id = list.get(1).toString();
 			r = new RFIDReader(id, Double.parseDouble(list.get(2).toString()),
 					Double.parseDouble(list.get(3).toString()));
 			r.setGate(Integer.parseInt(list.get(4).toString()));
 			r.setName(list.get(5).toString());
 			readerListInstance.putToMap(id, r);
 		}
-		if (featureIterator != null)
-			featureIterator.close();
+		featureIterator.close();
 	}
 
 	private static void setPointList(SimpleFeatureSource featureSource) throws IOException {
@@ -176,10 +162,10 @@ public class FileOp {
 
 			// set all the signalmap from db to mypoint object
 
-			HashMap<Integer, RFIDReader> ls = RFIDReaderList.getInstance().getList();
-			Iterator<Integer> it = ls.keySet().iterator();
+			HashMap<String, RFIDReader> ls = RFIDReaderList.getInstance().getList();
+			Iterator<String> it = ls.keySet().iterator();
 			while (it.hasNext()) {
-				int readerID = it.next();
+				String readerID = it.next();
 				String key = "" + index + "-" + readerID;
 
 				if (SignalMapList.getInstance().getList().containsKey(key)) {
@@ -188,12 +174,10 @@ public class FileOp {
 
 					p.setRssiMap(readerID, minrssi, maxrssi);
 				}
-
 			}
 
 			pointList.add(p);
 		}
-		if (featureIterator != null)
-			featureIterator.close();
+		featureIterator.close();
 	}
 }

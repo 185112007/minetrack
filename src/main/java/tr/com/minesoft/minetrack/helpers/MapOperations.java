@@ -3,9 +3,9 @@ package tr.com.minesoft.minetrack.helpers;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import org.geotools.data.collection.ListFeatureCollection;
-import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.styling.Font;
@@ -17,7 +17,6 @@ import org.geotools.styling.TextSymbolizer;
 import org.joda.time.DateTime;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import org.opengis.filter.FilterFactory;
 
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
@@ -32,45 +31,36 @@ import tr.com.minesoft.minetrack.view.UI;
 import org.locationtech.jts.geom.Point;
 
 public class MapOperations {
-
 	public static final int VALID_SIGNAL_DURATION_MS = 300000;
-	static FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory();
-
 	private static ArrayList<SimpleFeature> list;
 	private static TrackedLayer trackedLayer;
-
 	public static Style style;
 	public static SimpleFeatureType TYPE;
 	public static ListFeatureCollection collection;
-
 	public static ArrayList<SimpleFeature> getList() {
 		return list;
 	}
-
 	public static TrackedLayer getTrackedLayer() {
 		return trackedLayer;
 	}
-
 	public static TrackedLayer createEmptyLayer() {
-		list = new ArrayList<SimpleFeature>();
-
+		list = new ArrayList<>();
 		style = SLD.createPointStyle("Star", Color.BLUE, Color.BLUE, 0.3f, 10);
-
 		SimpleFeatureTypeBuilder b = new SimpleFeatureTypeBuilder();
 
 		// set the name
 		b.setName("Konum"); //$NON-NLS-1$
 
 		// add some attribute
-		b.add("point", Point.class); //$NON-NLS-1$
-		b.add("tagid", Integer.class); //$NON-NLS-1$
-		b.add("name", String.class); //$NON-NLS-1$
-		b.add("track", Tracked.class); //$NON-NLS-1$
-		b.add("MyPoint", MyPoint.class); //$NON-NLS-1$
+		b.add("point", Point.class);
+		b.add("tagid", Integer.class);
+		b.add("name", String.class);
+		b.add("track", Tracked.class);
+		b.add("MyPoint", MyPoint.class);
 
 		// add a geometry property
 		b.setCRS(DefaultGeographicCRS.WGS84);
-		b.add("location", Point.class); //$NON-NLS-1$
+		b.add("location", Point.class);
 
 		// build the type
 		TYPE = b.buildFeatureType();
@@ -86,34 +76,30 @@ public class MapOperations {
 		// end
 		// apply rule
 		style.featureTypeStyles().get(0).rules().add(rule);
-
 		trackedLayer = new TrackedLayer(collection, style);
-
-		trackedLayer.setTitle(Messages.getString("MapOperations.10")); //$NON-NLS-1$
-
+		trackedLayer.setTitle(Messages.getString("MapOperations.10"));
 		return trackedLayer;
 	}
 
 	public static void refreshTrackedLayer(UI parent) {
-		HashMap<Integer, Tracked> trackMap = TrackedList.getInstance().getList();
+		HashMap<String, Tracked> trackMap = TrackedList.getInstance().getList();
 
 		int counter = 0;
-		for (int trackedKey : trackMap.keySet()) {
+		for (String trackedKey : trackMap.keySet()) {
 			Tracked tracked = trackMap.get(trackedKey);
 			Signal signal = tracked.getPrevSignal();
 			if (signal != null) {
 				try {
-					int rid = signal.getRid();
+					String rid = signal.getRid();
 					RFIDReader r = RFIDReaderList.getInstance().getList().get(rid);
 
 					DateTime validtime = DateTime.now().minusMillis(VALID_SIGNAL_DURATION_MS);
 
 					if (r.getGate() == 1 && validtime.isAfter(signal.getDt())) {
-						boolean b = true;
-						for (int i = 0; i < list.size() && b; i++) {
+						for (int i = 0; i < list.size(); i++) {
 							SimpleFeature feature = list.get(i);
-							int tid = Integer.parseInt(feature.getAttribute("tagid").toString()); //$NON-NLS-1$
-							if (tid == signal.getTid()) {
+							String tid = feature.getAttribute("tagid").toString();
+							if (Objects.equals(tid, signal.getTid())) {
 								list.remove(i);
 								tracked.setPrevSignal(null);
 								tracked.setPrevPointIndex(0);

@@ -16,34 +16,21 @@ import tr.com.minesoft.minetrack.helpers.DesEncrypter;
 public class License {
 	private String key;
 	private String date;
-
 	private String dateString;
-	/**
-	 * tek nesne
-	 */
 	private static volatile License licenseInstance;
-
-	/**
-	 * Double check locking
-	 * 
-	 * @return
-	 */
-	private static Object lock = new Object();
+	private static final Object lock = new Object();
 
 	public static License getInstance() {
 		if (licenseInstance == null) {
-			// double checked locking
 			synchronized (lock) {
 				if (licenseInstance == null) {
 					licenseInstance = new License();
 				}
 			}
 		}
-
 		return licenseInstance;
 	}
 
-	// contructor
 	private License() {
 		init();
 	}
@@ -65,8 +52,7 @@ public class License {
 		DesEncrypter encrypter = new DesEncrypter(originalKey);
 
 		// Şifreyi çöz
-		String decryptedDate = encrypter.decrypt(date);
-		dateString = decryptedDate;
+		dateString = encrypter.decrypt(date);
 	}
 
 	private boolean initUpdate(String tmp) {
@@ -77,51 +63,37 @@ public class License {
 			SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "DES");
 			DesEncrypter encrypter = new DesEncrypter(originalKey);
 			// Şifreyi çöz
-			String decryptedDate = encrypter.decrypt(date);
-			dateString = decryptedDate;
+			dateString = encrypter.decrypt(date);
 			return true;
 		} else {
 			this.date = tmp;
 			return false;
 		}
-
 	}
-
 	public String getDateString() {
 		return dateString;
 	}
-
 	public License(String key, String date) {
 		this.key = key;
 		this.date = date;
 	}
-
 	public String getKey() {
 		return key;
 	}
-
 	public void setKey(String key) {
 		this.key = key;
 	}
-
 	public String getDate() {
 		return date;
 	}
-
 	public boolean setDate(String date) {
 		String tmp = this.date;
 		this.date = date;
 		return initUpdate(tmp);
 	}
-
 	public boolean licenseExpired(DateTime now) {
-
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime licenseDate = formatter.parseDateTime(getDateString());
-
-		if (licenseDate.isAfter(now)) {
-			return true;
-		}
-		return false;
+		return licenseDate.isAfter(now);
 	}
 }
