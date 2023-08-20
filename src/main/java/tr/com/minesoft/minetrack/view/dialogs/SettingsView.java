@@ -236,9 +236,9 @@ public class SettingsView extends JDialog {
 		panel.add(ridLabel, gbc);
 
 		// rid text field
-		HashMap<Integer, RFIDReader> list = RFIDReaderList.getInstance().getList();
+		HashMap<String, RFIDReader> list = RFIDReaderList.getInstance().getList();
 
-		for (Integer key : list.keySet()) {
+		for (String key : list.keySet()) {
 
 			ridChoice.add("" + key);
 		}

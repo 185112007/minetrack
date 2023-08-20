@@ -69,13 +69,13 @@ public class AddMachineController implements ActionListener {
 			String fname = model.getValueAt(selectedRow, 1).toString();
 			String lname = model.getValueAt(selectedRow, 2).toString();
 			String role = model.getValueAt(selectedRow, 3).toString();
-			int tid = Integer.parseInt(model.getValueAt(selectedRow, 4).toString());
+			String tid = model.getValueAt(selectedRow, 4).toString();
 
 			long mnoNew = Long.parseLong(parent.getMnoTextField().getText());
 			String fnameNew = parent.getFnameTextField().getText();
 			String lnameNew = parent.getLnameTextField().getText();
 			String roleNew = parent.getRoleTextField().getText();
-			int tidNew = Integer.parseInt(parent.getTagidTextField().getText());
+			String tidNew = parent.getTagidTextField().getText();
 			
 			// eski verilerde degisiklik var mi?
 			if ((mno == mnoNew)&&(!fname.equals(fnameNew) || !lname.equals(lnameNew) || !role.equals(roleNew)
@@ -118,11 +118,11 @@ public class AddMachineController implements ActionListener {
 		// start remove from table
 		int[] rows = parent.getTable().getSelectedRows();
 		if (rows.length > 0) {
-			ArrayList<Integer> tagList = new ArrayList<>();
+			ArrayList<String> tagList = new ArrayList<>();
 
 			for (int i = 0; i < rows.length; i++) {
 
-				int tid = Integer.parseInt(model.getValueAt(rows[i], 4).toString());
+				String tid = model.getValueAt(rows[i], 4).toString();
 
 				tagList.add(tid);
 
@@ -148,11 +148,11 @@ public class AddMachineController implements ActionListener {
 	private void addMachine(final DefaultTableModel model) {
 		Machine machine = null;
 
-		long mno = Long.valueOf(parent.getMnoTextField().getText());
+		long mno = Long.parseLong(parent.getMnoTextField().getText());
 		String fname = parent.getFnameTextField().getText();
 		String lname = parent.getLnameTextField().getText();
 		String role = parent.getRoleTextField().getText();
-		int tid = Integer.parseInt(parent.getTagidTextField().getText());
+		String tid = parent.getTagidTextField().getText();
 		try {
 			machine = new Machine(mno, fname, lname, role, tid);
 		} catch (NumberFormatException e) {
@@ -163,7 +163,7 @@ public class AddMachineController implements ActionListener {
 
 		if (MachineList.getInstance().add(machine)) {
 
-			model.addRow(new Object[] { "" + mno, fname, lname, role, "" + tid });
+			model.addRow(new Object[] {String.valueOf(mno), fname, lname, role, tid});
 
 			JOptionPane.showMessageDialog(parent.getComponent(0), Messages.getString("AddMachineController.success"), //$NON-NLS-1$
 					Messages.getString("AddMachineController.successaddmachine"), //$NON-NLS-1$

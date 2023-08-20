@@ -1,6 +1,7 @@
 package tr.com.minesoft.minetrack.positioning;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.locationtech.jts.geom.Point;
@@ -22,7 +23,7 @@ public class Positioning {
 
 	public static boolean findPosition(Signal signal) {
 		boolean positioned = false;
-		int tid = signal.getTid();
+		String tid = signal.getTid();
 		Tracked tracked = TrackedList.getInstance().getList().get(tid);
 
 		if (tracked != null) {
@@ -34,7 +35,7 @@ public class Positioning {
 
 	private static boolean positionWith1Reader(Signal signal, Tracked tracked) {
 		boolean positioned = false;
-		int rid = signal.getRid();
+		String rid = signal.getRid();
 		int rssi = signal.getRssi();
 
 		GeometryFactory geomFactory = new GeometryFactory();
@@ -46,7 +47,7 @@ public class Positioning {
 		{
 			for (SimpleFeature feature : list) {
 				String id = feature.getID();
-				if (Integer.parseInt(id) == tracked.getTagId()) {
+				if (Objects.equals(id, tracked.getTagId())) {
 					mypoint = findClosestPointWithPrevSignal(signal, tracked);
 					if (mypoint != null && mypoint.getIndex() != tracked.getPrevPointIndex()) {
 						Point point = geomFactory
@@ -80,7 +81,6 @@ public class Positioning {
 				positioned = true;
 				tracked.setPrevSignal(signal);
 				tracked.setPrevPointIndex(mypoint.getIndex());
-//		tracked.setSolSag(1); // baslangicta soldan saga gidiyor
 				tracked.setState(true);
 				tracked.setKonum(RFIDReaderList.getInstance().getList().get(rid).getName());
 			}
@@ -91,12 +91,12 @@ public class Positioning {
 	private static MyPoint findClosestPointWithPrevSignal(Signal signal, Tracked tr) {
 		MyPoint result = null;
 		int rssi = signal.getRssi();
-		int rid = signal.getRid();
+		String rid = signal.getRid();
 		Signal prevSignal = tr.getPrevSignal();
 		int prevRssi = prevSignal.getRssi();
-		int prevRid = prevSignal.getRid();
+		String prevRid = prevSignal.getRid();
 
-		if (rid == prevRid && rssi == prevRssi) {
+		if (Objects.equals(rid, prevRid) && rssi == prevRssi) {
 			prevSignal = signal; // result = null, konumu degistirme
 		} else {// farklı bir readerdan sinyal aldı
 			prevSignal = signal;
@@ -106,7 +106,7 @@ public class Positioning {
 		return result;
 	}
 
-	private static MyPoint findClosestPoint(int rid, int rssi, Tracked tr) {
+	private static MyPoint findClosestPoint(String rid, int rssi, Tracked tr) {
 		ArrayList<MyPoint> pointList = PointList.getInstance().getList();
 
 		MyPoint result = null;
@@ -151,7 +151,7 @@ public class Positioning {
 		return result;
 	}
 
-	private static MyPoint findFirstClosestPoint(int rid, int rssi) {
+	private static MyPoint findFirstClosestPoint(String rid, int rssi) {
 		ArrayList<MyPoint> pointList = PointList.getInstance().getList();
 
 		MyPoint result = null;

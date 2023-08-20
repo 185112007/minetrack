@@ -201,7 +201,7 @@ public class MineTrackFrame extends AbstractMineTrackFrame {
 
 	}
 
-	public void setTrackedModel(HashMap<Integer, Tracked> mapOfTracked) {
+	public void setTrackedModel(HashMap<String, Tracked> mapOfTracked) {
 		//
 		setTrackedModelLock.lock();
 		try {
@@ -210,8 +210,8 @@ public class MineTrackFrame extends AbstractMineTrackFrame {
 			}
 			trackedModel.setRowCount(0);
 			int id = 0;
-			for (Map.Entry<Integer, Tracked> entry : mapOfTracked.entrySet()) {
-				int tagid = entry.getKey();
+			for (Map.Entry<String, Tracked> entry : mapOfTracked.entrySet()) {
+				String tagid = entry.getKey();
 				Tracked v = entry.getValue();
 				if (v.isState())
 					trackedModel.addRow(new Object[] { id++, v.getFname(), v.getLname(), tagid, v.getKonum() });

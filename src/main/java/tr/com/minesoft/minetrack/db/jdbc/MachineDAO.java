@@ -22,7 +22,7 @@ import tr.com.minesoft.minetrack.model.Machine;
  * @author Gafur Hayytbayev
  *
  */
-public class MachineDAO implements DAO<Machine, Integer> {
+public class MachineDAO implements DAO<Machine, String> {
 
 	@Override
 	public boolean insert(Machine t) {
@@ -37,7 +37,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 			prepStatement.setString(2, t.getFname());
 			prepStatement.setString(3, t.getLname());
 			prepStatement.setString(4, t.getRole());
-			prepStatement.setInt(5, t.getTagId());
+			prepStatement.setString(5, t.getTagId());
 
 			prepStatement.executeUpdate();
 
@@ -62,7 +62,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 			prepStatement.setString(1, m.getFname());
 			prepStatement.setString(2, m.getLname());
 			prepStatement.setString(3, m.getRole());
-			prepStatement.setInt(4, m.getTagId());
+			prepStatement.setString(4, m.getTagId());
 			prepStatement.setLong(5, m.getMachineNo());
 
 			prepStatement.executeUpdate();
@@ -75,7 +75,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
+	public boolean delete(ArrayList<String> list) {
 		boolean result = false;
 		String table = "machine";
 		String column = "tagid";
@@ -103,8 +103,8 @@ public class MachineDAO implements DAO<Machine, Integer> {
 	}
 
 	@Override
-	public HashMap<Integer, Machine> get(String[] params) {
-		HashMap<Integer, Machine> machineMap = new HashMap<>();
+	public HashMap<String, Machine> get(String[] params) {
+		HashMap<String, Machine> machineMap = new HashMap<>();
 
 		String sqlQuery = "SELECT mno, fname, lname, role, tagid FROM machine";
 		
@@ -117,7 +117,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String role = rs.getString("role");
-				int tagid = rs.getInt("tagid");
+				String tagid = rs.getString("tagid");
 				machineMap.put(tagid, new Machine(mno, fname, lname, role, tagid));
 			}
 
@@ -129,8 +129,7 @@ public class MachineDAO implements DAO<Machine, Integer> {
 	}
 
 	@Override
-	public ArrayList<Machine> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public ArrayList<Machine> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
 	}
 

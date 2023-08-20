@@ -1,30 +1,17 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.model;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class Machine extends Tracked {
-	private long machineNo;
-	private String role;
+	private final long machineNo;
+	private final String role;
 
-	public Machine(long machineNo, String fname, String lname, String role, int tagId) {
+	public Machine(long machineNo, String fname, String lname, String role, String tagId) {
 		super(fname, lname, tagId);
 		this.role = role;
 		this.machineNo = machineNo;
 	}
-
 	public long getMachineNo() {
 		return machineNo;
 	}
-
-	public void setMachineNo(long machineNo) {
-		this.machineNo = machineNo;
-	}
-
 	public String getRole() {
 		return role;
 	}

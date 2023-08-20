@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.HashMap;
+import java.util.Objects;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -129,7 +130,7 @@ public class DailyReportView extends JDialog {
 	 * @param model
 	 */
 	private void addDataTo(DefaultTableModel model) {
-		HashMap<Integer, Tracked> trackedList = TrackedList.getInstance().getList();
+		HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
 
 		// tarih aralıgını gungun sorgu yap
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(Messages.getString("DailyReportView.datepattern")); //$NON-NLS-1$
@@ -139,7 +140,7 @@ public class DailyReportView extends JDialog {
 		DateTime dt2 = formatter.parseDateTime(getEntryDate2().getText());
 
 		for (DateTime date1 = dt1; date1.isBefore(dt2.plusDays(1)); date1 = date1.plusDays(1)) {
-			for (Integer tid : trackedList.keySet()) {
+			for (String tid : trackedList.keySet()) {
 				Tracked tracked = trackedList.get(tid);
 
 				// tid belli
@@ -148,8 +149,8 @@ public class DailyReportView extends JDialog {
 				DateTime date2 = date1.plusDays(1);
 				String dateStr1 = outputFormatter.print(date1);
 				String dateStr2 = outputFormatter.print(date2);
-				HashMap<Integer, DateTime> dates = DAOHelper.getDailyReportDAO()
-						.get(new String[] { "" + tid, dateStr1, dateStr2 }); //$NON-NLS-1$
+				HashMap<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
+						.get(new String[] {tid, dateStr1, dateStr2 }); //$NON-NLS-1$
 
 				if (!dates.isEmpty()) {
 					DateTimeFormatter toHourWithMinute = DateTimeFormat
