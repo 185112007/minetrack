@@ -13,8 +13,8 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.lists.SignalList;
 
 public class DataTerminal {
-    private static final String IP = "192.168.0.7";
-    private static final int PORT = 26;
+    private static final String IP = "192.168.1.2";
+    private static final int PORT = 4001;
     private volatile boolean state;
     private DataInputStream input;
     private Socket socket;
@@ -82,12 +82,12 @@ public class DataTerminal {
             read = input.read(buffer);
             String output = new String(buffer, 0, read);
             analyzeInput(output);
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
         }
     }
 
-    private void analyzeInput(String str){
+    private void analyzeInput(String str) throws RuntimeException{
         String[] splitted = str.split(",");
         System.out.println("data:");
         if (splitted.length > 2){
