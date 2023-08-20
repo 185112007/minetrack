@@ -112,7 +112,16 @@ public class DataTerminal {
 
     private String extractTagId(String[] splitted) {
         if (splitted[2].length() > 14){
-            return splitted[2].substring(4, 14);
+            // 2164000723
+            String wrongTagId = splitted[2].substring(4, 14);
+
+            // 0189674523
+            int[] indexes = new int[]{0,1,8,9,6,7,4,5,2,3};
+            StringBuilder builder = new StringBuilder();
+            for (int count = 0; count < indexes.length; count++ ){
+                builder.append(wrongTagId.charAt(indexes[count]));
+            }
+            return builder.toString();
         }
         throw new RuntimeException("tag id not found");
     }
