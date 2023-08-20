@@ -9,5 +9,5 @@ target
 # idea generated files
 .idea
 
-# data
-./data/
+# project
+logger.log.lck
