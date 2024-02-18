@@ -21,19 +21,16 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 
 	@Override
 	public boolean insert(DateTime t) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean update(DateTime t, String[] params) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean delete(ArrayList<Integer> list) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -81,8 +78,7 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 	}
 
 	@Override
-	public ArrayList<DateTime> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public ArrayList<DateTime> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
 	}
 

@@ -23,7 +23,7 @@ import tr.com.minesoft.minetrack.model.Employee;
  * @author Gafur Hayytbayev
  *
  */
-public class EmployeeDAO implements DAO<Employee, Integer> {
+public class EmployeeDAO implements DAO<Employee, String> {
 
 	@Override
 	public boolean insert(Employee emp) {
@@ -38,7 +38,7 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 			prepStatement.setString(2, emp.getFname());
 			prepStatement.setString(3, emp.getLname());
 			prepStatement.setString(4, emp.getRole());
-			prepStatement.setInt(5, emp.getTagId());
+			prepStatement.setString(5, emp.getTagId());
 
 			prepStatement.executeUpdate();
 
@@ -62,7 +62,7 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 			prepStatement.setString(1, emp.getFname());
 			prepStatement.setString(2, emp.getLname());
 			prepStatement.setString(3, emp.getRole());
-			prepStatement.setInt(4, emp.getTagId());
+			prepStatement.setString(4, emp.getTagId());
 			prepStatement.setLong(5, emp.getTcno());
 
 			prepStatement.executeUpdate();
@@ -76,7 +76,7 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> tagList) {
+	public boolean delete(ArrayList<String> tagList) {
 		boolean result = false;
 		String table = "employee";
 		String column = "tagid";
@@ -101,10 +101,10 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 	}
 
 	@Override
-	public HashMap<Integer, Employee> get(String[] params) {
-		HashMap<Integer, Employee> employeeMap = new HashMap<>();
+	public HashMap<String, Employee> get(String[] params) {
+		HashMap<String, Employee> employeeMap = new HashMap<>();
 
-		String sqlQuery = "SELECT tcno, fname, lname, role, tagid FROM public.employee";
+		String sqlQuery = "SELECT tcno, fname, lname, role, tagid FROM employee";
 		
 		try (Connection con = PostgreSQL.getInstance().getConnection();
 				Statement statement = con.createStatement();
@@ -115,20 +115,17 @@ public class EmployeeDAO implements DAO<Employee, Integer> {
 				String fname = rs.getString("fname");
 				String lname = rs.getString("lname");
 				String role = rs.getString("role");
-				int tagid = rs.getInt("tagid");
+				String tagid = rs.getString("tagid");
 				employeeMap.put(tagid, new Employee(tcno, fname, lname, role, tagid));
 			}
-
 		} catch (SQLException e1) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e1));
 		}
-
 		return employeeMap;
 	}
 
 	@Override
-	public ArrayList<Employee> get(int tid, DateTime dt1, DateTime dt2) {
-		
+	public ArrayList<Employee> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
 	}
 }

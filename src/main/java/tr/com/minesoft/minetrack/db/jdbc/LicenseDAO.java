@@ -111,7 +111,7 @@ public class LicenseDAO implements DAO<License, Integer> {
 	}
 
 	@Override
-	public ArrayList<License> get(int tid, DateTime dt1, DateTime dt2) {
+	public ArrayList<License> get(String tid, DateTime dt1, DateTime dt2) {
 		// TODO Auto-generated method stub
 		return null;
 	}

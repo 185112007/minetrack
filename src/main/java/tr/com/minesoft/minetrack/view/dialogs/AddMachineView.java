@@ -71,9 +71,9 @@ public class AddMachineView extends JDialog {
 		model.addColumn(Messages.getString("AddMachineView.role"));
 		model.addColumn(Messages.getString("AddMachineView.tagid"));
 
-		HashMap<Integer, Machine> tagIdList = MachineList.getInstance().getList();
+		HashMap<String, Machine> tagIdList = MachineList.getInstance().getList();
 
-		for (Integer tid : tagIdList.keySet()) {
+		for (String tid : tagIdList.keySet()) {
 			Machine m = tagIdList.get(tid);
 			model.addRow(new Object[] { m.getMachineNo(), m.getFname(), m.getLname(), m.getRole(), m.getTagId() });
 		}

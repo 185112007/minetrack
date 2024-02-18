@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
@@ -37,7 +34,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 			prepStatement = con.prepareStatement(sqlInsertQueryV2);
 
 			prepStatement.setInt(1, t.getPid());
-			prepStatement.setInt(2, t.getRid());
+			prepStatement.setString(2, t.getRid());
 			prepStatement.setInt(3, t.getMinrssi());
 			prepStatement.setInt(4, t.getMaxrssi());
 
@@ -83,7 +80,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 			prepStatement.setInt(1, t.getMinrssi());
 			prepStatement.setInt(2, t.getMaxrssi());
 			prepStatement.setInt(3, t.getPid());
-			prepStatement.setInt(4, t.getRid());
+			prepStatement.setString(4, t.getRid());
 
 			prepStatement.executeUpdate();
 
@@ -165,7 +162,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	public HashMap<String, SignalMap> get(String[] params) {
 		HashMap<String, SignalMap> signalMap = new LinkedHashMap<>();
 
-		String sqlQuery = "SELECT pid, rid, minrssi, maxrssi FROM public.signalmap";
+		String sqlQuery = "SELECT pid, rid, minrssi, maxrssi FROM signalmap";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -176,7 +173,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 			rs = statement.executeQuery(sqlQuery);
 			while (rs.next()) {
 				int pid = rs.getInt("pid");
-				int rid = rs.getInt("rid");
+				String rid = rs.getString("rid");
 				int minrssi = rs.getInt("minrssi");
 				int maxrssi = rs.getInt("maxrssi");
 				signalMap.put("" + pid + "-" + rid, new SignalMap(pid, rid, minrssi, maxrssi));
@@ -208,8 +205,7 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	}
 
 	@Override
-	public ArrayList<SignalMap> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public ArrayList<SignalMap> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
 	}
 }

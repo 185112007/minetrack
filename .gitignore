@@ -8,3 +8,6 @@ target
 
 # idea generated files
 .idea
+
+# project
+logger.log.lck

@@ -12,7 +12,7 @@ import tr.com.minesoft.minetrack.model.RFIDReader;
 import tr.com.minesoft.minetrack.view.UI;
 
 public class ReaderStatus {
-	public ReaderStatus(UI parent, HashMap<Integer, RFIDReader> readers) {
+	public ReaderStatus(UI parent, HashMap<String, RFIDReader> readers) {
 
 		String[] columnNames = { Messages.getString("ReaderStatus.reader"), //$NON-NLS-1$
 				Messages.getString("ReaderStatus.status") }; //$NON-NLS-1$
@@ -20,7 +20,7 @@ public class ReaderStatus {
 		Object[][] data = new Object[readers.size()][2];
 
 		int i = 0;
-		for (Integer rid : readers.keySet()) {
+		for (String rid : readers.keySet()) {
 			data[i] = new Object[2];
 			RFIDReader reader = readers.get(rid);
 			String name = reader.getName();

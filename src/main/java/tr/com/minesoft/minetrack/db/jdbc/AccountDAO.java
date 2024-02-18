@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
@@ -17,10 +14,6 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.Account;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class AccountDAO implements DAO<Account, Integer> {
 
 	@Override
@@ -45,7 +38,7 @@ public class AccountDAO implements DAO<Account, Integer> {
 	public HashMap<Integer, Account> get(String[] params) {
 		HashMap<Integer, Account> accountMap = new HashMap<>();
 
-		String sqlQuery = "SELECT * FROM public.account";
+		String sqlQuery = "SELECT * FROM account";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -76,7 +69,7 @@ public class AccountDAO implements DAO<Account, Integer> {
 	}
 
 	@Override
-	public ArrayList<Account> get(int tid, DateTime dt1, DateTime dt2) {
+	public ArrayList<Account> get(String tid, DateTime dt1, DateTime dt2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
