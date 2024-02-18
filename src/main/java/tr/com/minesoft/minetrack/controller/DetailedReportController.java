@@ -102,9 +102,13 @@ public class DetailedReportController implements ActionListener {
 					.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
 			String time = toHourWithMinute.print(o.getDt());
 			String rid = o.getRid();
-			String readerName = mapOfReaders.get(rid).getName();
 
-			model.addRow(new Object[] { time, readerName });
+			RFIDReader rfidReader = mapOfReaders.get(rid);
+
+			if (rfidReader != null){
+				String readerName = rfidReader.getName();
+				model.addRow(new Object[] { time, readerName });
+			}
 		}
 	}
 }

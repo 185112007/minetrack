@@ -37,17 +37,23 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 	@Override
 	public HashMap<Integer, DateTime> get(String[] params) {
 
-		int tid = Integer.parseInt(params[0]);
+		String tid = params[0];
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
 		DateTime date1 = formatter.parseDateTime(params[1]);
 		DateTime date2 = formatter.parseDateTime(params[2]);
 
 		HashMap<Integer, DateTime> dates = new LinkedHashMap<>();
 
-		String sqlQuery = "(SELECT time " + "FROM signal " + "WHERE tid=" + tid + " AND time BETWEEN '\"" + date1
-				+ "' AND '\"" + date2 + "\"'\r\n" + "ORDER BY time ASC, time ASC LIMIT 1) " + "UNION " + "(SELECT time "
-				+ "FROM signal " + "WHERE tid=" + tid + " AND time BETWEEN '\"" + date1 + "' AND '\"" + date2
-				+ "\"'\r\n" + "ORDER BY time DESC, time DESC LIMIT 1)";
+		String sqlQuery =
+				"(SELECT time " +
+				"FROM signal " +
+				"WHERE tid='" + tid + "' AND time BETWEEN '\"" + date1 + "' AND '\"" + date2 +
+				"\"'\r\n" + "ORDER BY time ASC, time ASC LIMIT 1) " +
+				"UNION " +
+				"(SELECT time " +
+				"FROM signal " +
+				"WHERE tid='" + tid + "' AND time BETWEEN '\"" + date1 + "' AND '\"" + date2 + "\"'\r\n" +
+				"ORDER BY time DESC, time DESC LIMIT 1)";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;
