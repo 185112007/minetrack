@@ -48,7 +48,7 @@ public class DetailedReportDAO implements DAO<TimeAndRid, String> {
 
 		String sqlQuery = "SELECT \"time\", rid\r\n" + 
 				"  FROM signal\r\n" + 
-				"  WHERE tid = " + tid + " AND time >= '"+dt1+"' \r\n" + 
+				"  WHERE tid = '" + tid + "' AND time >= '"+dt1+"' \r\n" +
 				"  and time < '" + dt2 +"'";
 		Connection con = null;
 		Statement statement = null;
