@@ -90,7 +90,7 @@ public class DesEncrypter {
 			DesEncrypter encrypter = new DesEncrypter(originalKey);
 
 			// Şifrele
-			String encrypted = encrypter.encrypt("15/01/2025");
+			String encrypted = encrypter.encrypt("01/04/2025");
 
 			// Şifreyi çöz
 			String decrypted = encrypter.decrypt(encrypted);

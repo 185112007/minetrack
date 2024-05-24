@@ -38,7 +38,7 @@ public class ThreadManager {
 				}
 			};
 			// Schedule to run after every 5 minut(240000 millisecond)
-			timer.scheduleAtFixedRate(timerTask, 0, 240000);
+			timer.scheduleAtFixedRate(timerTask, 0, 60000);
 			reader = new Thread(new ReadService());
 			reader.start();
 			parent.enableStopBtn();

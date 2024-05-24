@@ -92,5 +92,4 @@ VALUES
     (2, '242303240010', -120, -75)
 ;
 
-------------------------------------------------------------------------
-SELECT pid, rid, minrssi, maxrssi FROM signalmap;
+docker exec -i pg_mine /usr/bin/pg_dump -U mine minetrack > minetrack_01042024.sql
