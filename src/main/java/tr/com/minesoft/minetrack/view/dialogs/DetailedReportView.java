@@ -222,26 +222,29 @@ public class DetailedReportView extends JDialog {
 		DateTime dt1 = formatter.parseDateTime(getEntryDate1().getText());
 		DateTime dt2 = dt1.plusDays(1); // bir sonraki gun
 
-		String nameSpaceSurname = this.getAdSoyadBox().getItemAt(0).toString();
-		String[] parts = nameSpaceSurname.split(" ");
-		String fname = parts[0];
-		String lname = parts[1];
-		String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
+		Tracked itemAt = this.getAdSoyadBox().getItemAt(0);
+		if (itemAt != null) {
+			String nameSpaceSurname = itemAt.toString();
+			String[] parts = nameSpaceSurname.split(" ");
+			String fname = parts[0];
+			String lname = parts[1];
+			String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-		ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
+			ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
-		for (TimeAndRid o : list) {
+			for (TimeAndRid o : list) {
 
-			DateTimeFormatter toHourWithMinute = DateTimeFormat
-					.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
-			String time = toHourWithMinute.print(o.getDt());
-			String rid = o.getRid();
+				DateTimeFormatter toHourWithMinute = DateTimeFormat
+						.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
+				String time = toHourWithMinute.print(o.getDt());
+				String rid = o.getRid();
 
-			RFIDReader rfidReader = mapOfReaders.get(rid);
+				RFIDReader rfidReader = mapOfReaders.get(rid);
 
-			if (rfidReader != null){
-				String readerName = rfidReader.getName();
-				model.addRow(new Object[] { time, readerName });
+				if (rfidReader != null){
+					String readerName = rfidReader.getName();
+					model.addRow(new Object[] { time, readerName });
+				}
 			}
 		}
 	}

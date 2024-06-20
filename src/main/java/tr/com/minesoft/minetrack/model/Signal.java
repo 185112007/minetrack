@@ -9,8 +9,8 @@ import org.joda.time.DateTime;
 @Setter
 @Builder
 public class Signal {
-	private int rssi;
 	private DateTime dt;
 	private String rid;
 	private String tid;
+	private int rssi;
 }

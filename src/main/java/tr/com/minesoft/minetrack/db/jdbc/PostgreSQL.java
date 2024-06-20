@@ -10,8 +10,8 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 
 public class PostgreSQL {
 	private final String url = "jdbc:postgresql://localhost:5432/minetrack";
-	private final String dbuser = "mine";
-	private final String dbpass = "track";
+	private final String dbuser = "postgres";
+	private final String dbpass = "admin";
 	private static Connection con;
 	private static volatile PostgreSQL sqlInstance = null;
 	private static final Object lock = new Object();
