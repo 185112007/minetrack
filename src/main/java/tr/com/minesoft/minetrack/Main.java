@@ -5,14 +5,8 @@ import javax.swing.SwingUtilities;
 import org.geotools.map.MapContent;
 
 import tr.com.minesoft.minetrack.helpers.FileOp;
+import tr.com.minesoft.minetrack.helpers.MapOperations;
 import tr.com.minesoft.minetrack.view.UI;
-
-/**
- * Main class
- * 
- * @author Gafur Hayytbayev
- *
- */
 
 public class Main {
 
@@ -21,6 +15,7 @@ public class Main {
 		SwingUtilities.invokeLater(() -> {
 			MapContent map = new MapContent();
 			FileOp.loadFiles(map);
+			MapOperations.addTrackedLayer(map);
 			new UI(map);
 		});
 	}

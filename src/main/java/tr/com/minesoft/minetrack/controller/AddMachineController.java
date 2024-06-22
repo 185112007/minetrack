@@ -16,7 +16,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.Machine;
 import tr.com.minesoft.minetrack.model.lists.MachineList;
-import tr.com.minesoft.minetrack.view.dialogs.AddMachineView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddMachineView;
 
 /**
  * @author Gafur Hayytbayev

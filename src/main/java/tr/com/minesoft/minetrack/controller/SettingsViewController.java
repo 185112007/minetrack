@@ -17,7 +17,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.SignalMap;
 import tr.com.minesoft.minetrack.model.lists.SignalMapList;
-import tr.com.minesoft.minetrack.view.dialogs.SettingsView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.SettingsView;
 
 /**
  * @author Gafur Hayytbayev

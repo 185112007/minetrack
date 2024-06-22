@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
+import org.geotools.map.MapContent;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.styling.Font;
 import org.geotools.styling.Rule;
@@ -37,19 +38,26 @@ public class MapOperations {
 	public static Style style;
 	public static SimpleFeatureType TYPE;
 	public static ListFeatureCollection collection;
+
 	public static ArrayList<SimpleFeature> getList() {
 		return list;
 	}
+
 	public static TrackedLayer getTrackedLayer() {
 		return trackedLayer;
 	}
+
+	public static void addTrackedLayer(MapContent map) {
+		map.addLayer(createEmptyLayer());
+	}
+
 	public static TrackedLayer createEmptyLayer() {
 		list = new ArrayList<>();
 		style = SLD.createPointStyle("Star", Color.BLUE, Color.BLUE, 0.3f, 10);
 		SimpleFeatureTypeBuilder b = new SimpleFeatureTypeBuilder();
 
 		// set the name
-		b.setName("Konum"); //$NON-NLS-1$
+		b.setName("Konum");
 
 		// add some attribute
 		b.add("point", Point.class);

@@ -21,7 +21,7 @@ import org.joda.time.format.DateTimeFormatter;
 import tr.com.minesoft.minetrack.db.DAOHelper;
 import tr.com.minesoft.minetrack.helpers.Export;
 import tr.com.minesoft.minetrack.model.Tracked;
-import tr.com.minesoft.minetrack.view.dialogs.PersonalReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.PersonalReportView;
 
 /**
  * @author Gafur Hayytbayev

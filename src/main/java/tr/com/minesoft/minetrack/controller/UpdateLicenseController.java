@@ -7,8 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import tr.com.minesoft.minetrack.model.License;
-import tr.com.minesoft.minetrack.view.dialogs.LicenseView;
-import tr.com.minesoft.minetrack.view.dialogs.UpdateLicenseView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.LicenseView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.update_license.UpdateLicenseView;
 
 public class UpdateLicenseController implements ActionListener {
 	private final UpdateLicenseView parent;

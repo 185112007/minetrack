@@ -24,7 +24,7 @@ import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.RFIDReader;
 import tr.com.minesoft.minetrack.model.lists.RFIDReaderList;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
-import tr.com.minesoft.minetrack.view.dialogs.DetailedReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DetailedReportView;
 
 public class DetailedReportController implements ActionListener {
 	private final DetailedReportView parent;
@@ -57,7 +57,6 @@ public class DetailedReportController implements ActionListener {
 	}
 
 	private void exportModel(final DefaultTableModel model) {
-		//System.out.println("export to exel");
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));

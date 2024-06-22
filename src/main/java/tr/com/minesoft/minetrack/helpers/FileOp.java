@@ -11,7 +11,6 @@ import java.util.List;
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.map.FeatureLayer;
 import org.geotools.map.Layer;
@@ -23,10 +22,8 @@ import org.geotools.styling.Rule;
 import org.geotools.styling.SLD;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyleBuilder;
-import org.geotools.styling.StyleFactory;
 import org.geotools.styling.TextSymbolizer;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.filter.FilterFactory;
 
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
@@ -90,8 +87,6 @@ public class FileOp {
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
-		// konum
-		map.addLayer(MapOperations.createEmptyLayer());
 	}
 
 	private static Style createStyleForReaders() {

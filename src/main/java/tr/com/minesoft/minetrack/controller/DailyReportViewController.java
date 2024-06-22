@@ -23,7 +23,7 @@ import tr.com.minesoft.minetrack.db.DAOHelper;
 import tr.com.minesoft.minetrack.helpers.Export;
 import tr.com.minesoft.minetrack.model.Tracked;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
-import tr.com.minesoft.minetrack.view.dialogs.DailyReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DailyReportView;
 
 /**
  * @author Gafur Hayytbayev

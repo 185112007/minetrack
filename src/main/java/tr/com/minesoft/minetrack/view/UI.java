@@ -22,19 +22,19 @@ import tr.com.minesoft.minetrack.helpers.Login;
 import tr.com.minesoft.minetrack.helpers.impl.AddLayerImpl;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.RFIDReader;
-import tr.com.minesoft.minetrack.view.dialogs.AddEmployeeView;
-import tr.com.minesoft.minetrack.view.dialogs.AddMachineView;
-import tr.com.minesoft.minetrack.view.dialogs.AdminView;
-import tr.com.minesoft.minetrack.view.dialogs.ContactView;
-import tr.com.minesoft.minetrack.view.dialogs.DailyReportView;
-import tr.com.minesoft.minetrack.view.dialogs.DetailedReportView;
-import tr.com.minesoft.minetrack.view.dialogs.LicenseInfoView;
-import tr.com.minesoft.minetrack.view.dialogs.LicenseView;
-import tr.com.minesoft.minetrack.view.dialogs.PersonalReportView;
-import tr.com.minesoft.minetrack.view.dialogs.SettingsView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddEmployeeView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddMachineView;
+import tr.com.minesoft.minetrack.view.dialogs.report.SimulationReportView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.AdminView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DailyReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DetailedReportView;
+import tr.com.minesoft.minetrack.view.dialogs.help.LicenseInfoView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.LicenseView;
+import tr.com.minesoft.minetrack.view.dialogs.report.PersonalReportView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.SettingsView;
 import tr.com.minesoft.minetrack.view.frames.MineTrackFrame;
-import tr.com.minesoft.minetrack.view.msgdialogs.ReaderStatus;
-import tr.com.minesoft.minetrack.view.msgdialogs.TerminalStatus;
+import tr.com.minesoft.minetrack.view.dialogs.status.ReaderStatus;
+import tr.com.minesoft.minetrack.view.dialogs.status.TerminalStatus;
 
 public final class UI {
 	private final MineTrackFrame mapFrame;
@@ -133,15 +133,18 @@ public final class UI {
 		personalReportSubmenu.setName("personalreport");
 		JMenuItem detailedReportSubmenu = new JMenuItem(Messages.getString("UI.detailedReport"));
 		detailedReportSubmenu.setName("detailedreport");
+		JMenuItem simulationReportSubmenu = new JMenuItem(Messages.getString("UI.simulationReport"));
 
 		// add action listener
 		dailyReportSubmenu.addActionListener(uiControl);
 		personalReportSubmenu.addActionListener(uiControl);
 		detailedReportSubmenu.addActionListener(uiControl);
+		simulationReportSubmenu.addActionListener(event -> new SimulationReportView(this.getFrame()));
 
 		reportMenu.add(dailyReportSubmenu);
 		reportMenu.add(personalReportSubmenu);
 		reportMenu.add(detailedReportSubmenu);
+		reportMenu.add(simulationReportSubmenu);
 
 		menuBar.add(reportMenu);
 		// -------------------------------------------------------------------
@@ -316,10 +319,6 @@ public final class UI {
 	public void showLicenseView() {
 		LicenseView licenseview = new LicenseView(this.getFrame(), true);
 		licenseview.setVisible(true);
-	}
-
-	public void showContactView() {
-		new ContactView(this.getFrame());
 	}
 
 	public void showLicenseInfoView() {

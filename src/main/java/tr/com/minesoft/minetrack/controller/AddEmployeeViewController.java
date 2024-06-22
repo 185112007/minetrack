@@ -14,7 +14,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.Employee;
 import tr.com.minesoft.minetrack.model.lists.EmployeeList;
-import tr.com.minesoft.minetrack.view.dialogs.AddEmployeeView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddEmployeeView;
 
 public class AddEmployeeViewController implements ActionListener {
 
@@ -76,7 +76,7 @@ public class AddEmployeeViewController implements ActionListener {
 					model.setValueAt(fnameNew, selectedRow, 1);
 					model.setValueAt(lnameNew, selectedRow, 2);
 					model.setValueAt(roleNew, selectedRow, 3);
-					model.setValueAt("" + tidNew, selectedRow, 4);
+					model.setValueAt(tidNew, selectedRow, 4);
 					JOptionPane.showMessageDialog(parent.getComponent(0),
 							Messages.getString("AddEmployeeViewController.successful"), //$NON-NLS-1$
 							Messages.getString("AddEmployeeViewController.updated"), //$NON-NLS-1$
@@ -98,12 +98,7 @@ public class AddEmployeeViewController implements ActionListener {
 		}
 	}
 
-	/**
-	 * @param model
-	 */
 	private void deleteRowsFromTable(final DefaultTableModel model) {
-		//System.out.println("delete"); //$NON-NLS-1$
-
 		// start remove from table
 		int[] rows = parent.getTable().getSelectedRows();
 		if (rows.length > 0) {

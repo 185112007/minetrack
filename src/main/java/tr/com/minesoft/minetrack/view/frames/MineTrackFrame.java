@@ -32,14 +32,9 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.Tracked;
-import tr.com.minesoft.minetrack.view.abstracts.AbstractMineTrackFrame;
+import tr.com.minesoft.minetrack.view.frames.abstracts.AbstractMineTrackFrame;
 
-@SuppressWarnings("serial")
 public class MineTrackFrame extends AbstractMineTrackFrame {
-
-	/**
-	 * 
-	 */
 
 	private JTable table;
 	private DefaultTableModel trackedModel;

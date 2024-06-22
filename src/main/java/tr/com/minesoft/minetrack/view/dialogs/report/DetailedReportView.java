@@ -1,4 +1,4 @@
-package tr.com.minesoft.minetrack.view.dialogs;
+package tr.com.minesoft.minetrack.view.dialogs.report;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
