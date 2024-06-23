@@ -9,7 +9,7 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,9 +38,6 @@ public class AddMachineView extends JDialog {
 
 	AddMachineController controller = new AddMachineController(this);
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public AddMachineView(Frame frame) {
@@ -52,9 +49,7 @@ public class AddMachineView extends JDialog {
 		this.getContentPane().add(panel);
 
 		DefaultTableModel model = new DefaultTableModel() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -71,7 +66,7 @@ public class AddMachineView extends JDialog {
 		model.addColumn(Messages.getString("AddMachineView.role"));
 		model.addColumn(Messages.getString("AddMachineView.tagid"));
 
-		HashMap<String, Machine> tagIdList = MachineList.getInstance().getList();
+		Map<String, Machine> tagIdList = MachineList.getInstance().getList();
 
 		for (String tid : tagIdList.keySet()) {
 			Machine m = tagIdList.get(tid);
@@ -82,7 +77,6 @@ public class AddMachineView extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				// i = the index of the selected row
 				int i = table.getSelectedRow();
 
 				mnoTextField.setText(model.getValueAt(i, 0).toString());

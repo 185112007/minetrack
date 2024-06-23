@@ -14,8 +14,8 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -38,26 +38,16 @@ import tr.com.minesoft.minetrack.model.SignalMap;
 import tr.com.minesoft.minetrack.model.lists.RFIDReaderList;
 import tr.com.minesoft.minetrack.model.lists.SignalMapList;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class SettingsView extends JDialog {
 
-	// private JTextField pidTextField;
 	private Choice pidChoice;
 	private Choice ridChoice;
 	private JTextField minrssiTextField;
 	private JTextField maxrssiTextField;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1239067299108059415L;
 	private JTable table;
 
-	/**
-	 * @param owner
-	 */
 	public SettingsView(Frame owner) {
 		super(owner, Messages.getString("SettingsView.setting"), true); //$NON-NLS-1$
 
@@ -69,9 +59,7 @@ public class SettingsView extends JDialog {
 		getContentPane().add(panel);
 
 		DefaultTableModel model = new DefaultTableModel() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -85,7 +73,7 @@ public class SettingsView extends JDialog {
 		model.addColumn(Messages.getString("SettingsView.rssivalue")); //$NON-NLS-1$
 		model.addColumn("Max RSSI Value");
 
-		HashMap<String, SignalMap> signalMapList = SignalMapList.getInstance().getList();
+		Map<String, SignalMap> signalMapList = SignalMapList.getInstance().getList();
 
 		for (String pidPlusRid : signalMapList.keySet()) {
 			SignalMap sm = signalMapList.get(pidPlusRid);
@@ -95,17 +83,13 @@ public class SettingsView extends JDialog {
 
 		table = new JTable(model);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		// get selected row data From table to textfields
 		table.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				// i = the index of the selected row
 				int i = table.getSelectedRow();
 
-				// pidTextField.setText(model.getValueAt(i, 0).toString());
-				// ridTextField.setText(model.getValueAt(i, 1).toString());
 				pidChoice.select(model.getValueAt(i, 0).toString());
 				ridChoice.select(model.getValueAt(i, 1).toString());
 				minrssiTextField.setText(model.getValueAt(i, 2).toString());
@@ -185,8 +169,6 @@ public class SettingsView extends JDialog {
 		JLabel maxrssiLabel = new JLabel("Max RSSI"); //$NON-NLS-1$
 		maxrssiLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		// pidTextField = new JTextField(15);
-		// ridTextField = new JTextField(15);
 		pidChoice = new Choice();
 		ridChoice = new Choice();
 		minrssiTextField = new JTextField(15);
@@ -204,7 +186,6 @@ public class SettingsView extends JDialog {
 
 		int i = 0;
 
-		// pid label
 		gbc.insets = new Insets(2, 2, 2, 2);
 		gbc.anchor = GridBagConstraints.NORTHEAST;
 
@@ -212,9 +193,7 @@ public class SettingsView extends JDialog {
 		gbc.gridy = i;
 		panel.add(pidLabel, gbc);
 
-		// pid text field
-
-		ArrayList<MyPoint> pointList = PointList.getInstance().getList();
+		List<MyPoint> pointList = PointList.getInstance().getList();
 		for (int j = 0; j < pointList.size(); j++) {
 			pidChoice.add("" + pointList.get(j).getIndex());
 		}
@@ -236,7 +215,7 @@ public class SettingsView extends JDialog {
 		panel.add(ridLabel, gbc);
 
 		// rid text field
-		HashMap<String, RFIDReader> list = RFIDReaderList.getInstance().getList();
+		Map<String, RFIDReader> list = RFIDReaderList.getInstance().getList();
 
 		for (String key : list.keySet()) {
 

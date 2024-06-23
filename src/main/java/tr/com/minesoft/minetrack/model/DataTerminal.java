@@ -13,7 +13,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.lists.SignalList;
 
 public class DataTerminal {
-    private static final String IP = "192.168.1.2";
+    private static final String IP = "192.168.0.7";
     private static final int PORT = 4001;
     private volatile boolean state;
     private DataInputStream input;
@@ -89,14 +89,14 @@ public class DataTerminal {
 
     private void analyzeInput(String str) throws RuntimeException{
         String[] splitted = str.split(",");
-        System.out.println("data:");
+//        System.out.println("data:");
         if (splitted.length > 2){
             String rID = splitted[1];
             int rssi = (byte)Integer.parseInt(extractRssiValue(splitted), 16);
             String tID = extractTagId(splitted);
-            System.out.println("S/N: " + rID);
-            System.out.println("RSSI: " + rssi);
-            System.out.println("TagID: " + tID);
+//            System.out.println("S/N: " + rID);
+//            System.out.println("RSSI: " + rssi);
+//            System.out.println("TagID: " + tID);
 
             SignalList.getInstance().add(
                     Signal.builder()
@@ -107,7 +107,7 @@ public class DataTerminal {
                             .build()
             );
         }
-        System.out.println();
+//        System.out.println();
     }
 
     private String extractTagId(String[] splitted) {

@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import org.joda.time.DateTime;
 
@@ -16,10 +15,6 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.SignalMap;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class SignalMapDAO implements DAO<SignalMap, String> {
 
 	@Override
@@ -110,11 +105,11 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<String> list) {
+	public boolean delete(List<String> list) {
 		boolean result = false;
 		String table = "signalmap";
 		String column = "pid";
-		ArrayList<Integer> pidList = cutPidFrom(list);
+		List<Integer> pidList = cutPidFrom(list);
 		String sqlDeleteQuery = PostgreSQL.getInstance().createDeleteQuery(pidList, table, column);
 		Connection con = null;
 		PreparedStatement prepStatement = null;
@@ -159,8 +154,8 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	}
 
 	@Override
-	public HashMap<String, SignalMap> get(String[] params) {
-		HashMap<String, SignalMap> signalMap = new LinkedHashMap<>();
+	public Map<String, SignalMap> get(String[] params) {
+		Map<String, SignalMap> signalMap = new LinkedHashMap<>();
 
 		String sqlQuery = "SELECT pid, rid, minrssi, maxrssi FROM signalmap";
 		Connection con = null;
@@ -193,8 +188,8 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 		return signalMap;
 	}
 
-	public static ArrayList<Integer> cutPidFrom(ArrayList<String> pidPlusRidList) {
-		ArrayList<Integer> pidList = new ArrayList<>();
+	public static List<Integer> cutPidFrom(List<String> pidPlusRidList) {
+		List<Integer> pidList = new ArrayList<>();
 
 		for (String str : pidPlusRidList) {
 			String[] split = str.split("-");
@@ -205,7 +200,12 @@ public class SignalMapDAO implements DAO<SignalMap, String> {
 	}
 
 	@Override
-	public ArrayList<SignalMap> get(String tid, DateTime dt1, DateTime dt2) {
+	public List<SignalMap> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<SignalMap> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 }

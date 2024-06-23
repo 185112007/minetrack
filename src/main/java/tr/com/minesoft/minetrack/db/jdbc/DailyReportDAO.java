@@ -5,9 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -30,19 +29,19 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
+	public boolean delete(List<Integer> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, DateTime> get(String[] params) {
+	public Map<Integer, DateTime> get(String[] params) {
 
 		String tid = params[0];
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
 		DateTime date1 = formatter.parseDateTime(params[1]);
 		DateTime date2 = formatter.parseDateTime(params[2]);
 
-		HashMap<Integer, DateTime> dates = new LinkedHashMap<>();
+		Map<Integer, DateTime> dates = new LinkedHashMap<>();
 
 		String sqlQuery =
 				"(SELECT time " +
@@ -84,8 +83,13 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 	}
 
 	@Override
-	public ArrayList<DateTime> get(String tid, DateTime dt1, DateTime dt2) {
+	public List<DateTime> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<DateTime> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

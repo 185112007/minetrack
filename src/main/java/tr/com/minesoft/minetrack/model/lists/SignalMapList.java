@@ -1,16 +1,13 @@
 package tr.com.minesoft.minetrack.model.lists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 
 import tr.com.minesoft.minetrack.db.DAOHelper;
 import tr.com.minesoft.minetrack.model.SignalMap;
 
 public class SignalMapList {
 
-	private HashMap<String, SignalMap> mapOfSignalMap;
+	private Map<String, SignalMap> mapOfSignalMap;
 	private static volatile SignalMapList signalMapInstance = null;
 	private static final Object lock = new Object();
 
@@ -29,7 +26,7 @@ public class SignalMapList {
 		mapOfSignalMap = Objects.requireNonNull(DAOHelper.getSignalMapDAO()).get(null);
 	}
 
-	public HashMap<String, SignalMap> getList() {
+	public Map<String, SignalMap> getList() {
 		mapOfSignalMap = Objects.requireNonNull(DAOHelper.getSignalMapDAO()).get(null);
 		return mapOfSignalMap;
 	}

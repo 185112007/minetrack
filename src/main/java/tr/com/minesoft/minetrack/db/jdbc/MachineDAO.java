@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
@@ -8,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -18,10 +17,6 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.Machine;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class MachineDAO implements DAO<Machine, String> {
 
 	@Override
@@ -75,7 +70,7 @@ public class MachineDAO implements DAO<Machine, String> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<String> list) {
+	public boolean delete(List<String> list) {
 		boolean result = false;
 		String table = "machine";
 		String column = "tagid";
@@ -103,8 +98,8 @@ public class MachineDAO implements DAO<Machine, String> {
 	}
 
 	@Override
-	public HashMap<String, Machine> get(String[] params) {
-		HashMap<String, Machine> machineMap = new HashMap<>();
+	public Map<String, Machine> get(String[] params) {
+		Map<String, Machine> machineMap = new HashMap<>();
 
 		String sqlQuery = "SELECT mno, fname, lname, role, tagid FROM machine";
 		
@@ -129,8 +124,13 @@ public class MachineDAO implements DAO<Machine, String> {
 	}
 
 	@Override
-	public ArrayList<Machine> get(String tid, DateTime dt1, DateTime dt2) {
+	public List<Machine> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<Machine> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

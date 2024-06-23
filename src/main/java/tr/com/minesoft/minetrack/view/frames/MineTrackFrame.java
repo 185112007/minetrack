@@ -2,7 +2,6 @@ package tr.com.minesoft.minetrack.view.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -196,7 +195,7 @@ public class MineTrackFrame extends AbstractMineTrackFrame {
 
 	}
 
-	public void setTrackedModel(HashMap<String, Tracked> mapOfTracked) {
+	public void setTrackedModel(Map<String, Tracked> mapOfTracked) {
 		//
 		setTrackedModelLock.lock();
 		try {

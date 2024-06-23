@@ -3,10 +3,7 @@ package tr.com.minesoft.minetrack.helpers;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
@@ -38,6 +35,10 @@ public class FileOp {
 	private final static String READER_PATH = "data/maps/readers.shp";
 	private final static String SIGNAL_PATH = "data/maps/sinyal.shp";
 
+	private static Layer mapLayer;
+	private static Layer readersLayer;
+	private static Layer pointsLayer;
+
 	public static void loadFiles(MapContent map) {
 		// harita
 		File file1 = new File(MAP_PATH);
@@ -48,8 +49,8 @@ public class FileOp {
 
 			Style style = SLD.createSimpleStyle(featureSource.getSchema());
 
-			Layer layer = new FeatureLayer(featureSource, style);
-			map.addLayer(layer);
+			FileOp.mapLayer = new FeatureLayer(featureSource, style);
+			map.addLayer(FileOp.mapLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
@@ -65,8 +66,8 @@ public class FileOp {
 			// label for readers
 			Style style = createStyleForReaders();
 
-			Layer layer = new FeatureLayer(featureSource, style);
-			map.addLayer(layer);
+			FileOp.readersLayer = new FeatureLayer(featureSource, style);
+			map.addLayer(FileOp.readersLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
@@ -81,12 +82,18 @@ public class FileOp {
 			setPointList(featureSource);
 
 			Style style = SLD.createSimpleStyle(featureSource.getSchema());
-			Layer layer = new FeatureLayer(featureSource, style);
-			layer.setVisible(false);
-			map.addLayer(layer);
+			FileOp.pointsLayer = new FeatureLayer(featureSource, style);
+			FileOp.pointsLayer.setVisible(false);
+			map.addLayer(FileOp.pointsLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
+	}
+
+	public static void reuseLayers(MapContent map) {
+		map.addLayer(new FeatureLayer(FileOp.mapLayer.getFeatureSource(), FileOp.mapLayer.getStyle()));
+		map.addLayer(new FeatureLayer(FileOp.readersLayer.getFeatureSource(), FileOp.readersLayer.getStyle()));
+		map.addLayer(new FeatureLayer(FileOp.pointsLayer.getFeatureSource(), FileOp.pointsLayer.getStyle()));
 	}
 
 	private static Style createStyleForReaders() {
@@ -157,7 +164,7 @@ public class FileOp {
 
 			// set all the signalmap from db to mypoint object
 
-			HashMap<String, RFIDReader> ls = RFIDReaderList.getInstance().getList();
+			Map<String, RFIDReader> ls = RFIDReaderList.getInstance().getList();
 			Iterator<String> it = ls.keySet().iterator();
 			while (it.hasNext()) {
 				String readerID = it.next();

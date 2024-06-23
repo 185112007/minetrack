@@ -1,7 +1,7 @@
 package tr.com.minesoft.minetrack.model.lists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import tr.com.minesoft.minetrack.db.DAOHelper;
@@ -10,7 +10,7 @@ import tr.com.minesoft.minetrack.model.Tracked;
 
 public class EmployeeList {
 	private final static EmployeeList empListInstance = new EmployeeList();
-	private final HashMap<String, Employee> mapOfEmployees;
+	private final Map<String, Employee> mapOfEmployees;
 
 	private EmployeeList() {
 		mapOfEmployees = Objects.requireNonNull(DAOHelper.getEmployeeDAO()).get(null);
@@ -20,7 +20,7 @@ public class EmployeeList {
 		return empListInstance;
 	}
 
-	public HashMap<String, Employee> getList() {
+	public Map<String, Employee> getList() {
 		return mapOfEmployees;
 	}
 
@@ -33,7 +33,7 @@ public class EmployeeList {
 		return false;
 	}
 
-	public boolean remove(ArrayList<String> tagIdList) {
+	public boolean remove(List<String> tagIdList) {
 		if (Objects.requireNonNull(DAOHelper.getEmployeeDAO()).delete(tagIdList)) {
 			TrackedList.getInstance().remove(tagIdList);
 			for (String key : tagIdList) {

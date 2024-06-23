@@ -1,12 +1,9 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.JButton;
@@ -25,10 +22,6 @@ import tr.com.minesoft.minetrack.model.Tracked;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
 import tr.com.minesoft.minetrack.view.dialogs.report.DailyReportView;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class DailyReportViewController implements ActionListener {
 
 	private final DailyReportView parent;
@@ -37,12 +30,6 @@ public class DailyReportViewController implements ActionListener {
 		this.parent = parent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 
@@ -58,13 +45,11 @@ public class DailyReportViewController implements ActionListener {
 			exportModel(model);
 			break;
 		default:
-			//System.out.println("default case");
 		}
 
 	}
 
 	private void exportModel(final DefaultTableModel model) {
-		//System.out.println("export to exel");
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -82,8 +67,6 @@ public class DailyReportViewController implements ActionListener {
 	}
 
 	private void showDailyReport(final DefaultTableModel model) {
-		//System.out.println("show daily report");
-
 		model.setRowCount(0);
 
 		DateTime thisDay = new DateTime();
@@ -95,10 +78,8 @@ public class DailyReportViewController implements ActionListener {
 		DateTime dt2 = formatter.parseDateTime(parent.getEntryDate2().getText());
 
 		if ((dt1.equals(dt2) || dt1.isBefore(dt2)) && (dt1.equals(thisDay) || dt1.isBefore(thisDay))) {
-			//System.out.println("true");
 
-			//
-			HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
+			Map<String, Tracked> trackedList = TrackedList.getInstance().getList();
 
 			for (DateTime date1 = dt1; date1.isBefore(dt2.plusDays(1)); date1 = date1.plusDays(1)) {
 				int countOfRows = 0;
@@ -111,7 +92,7 @@ public class DailyReportViewController implements ActionListener {
 					DateTime date2 = date1.plusDays(1);
 					String dateStr1 = outputFormatter.print(date1);
 					String dateStr2 = outputFormatter.print(date2);
-					HashMap<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
+					Map<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
 							.get(new String[] {tid, dateStr1, dateStr2 });
 
 					if (!dates.isEmpty()) {
@@ -129,16 +110,6 @@ public class DailyReportViewController implements ActionListener {
 					model.addRow(new Object[] {});
 				}
 			}
-
-//			System.out.println("dt1: " + dt1);
-//			System.out.println("dt2: " + dt2);
-//			System.out.println("now: " + thisDay);
-		} else {
-//			System.out.println("false");
-//			System.out.println("dt1: " + dt1);
-//			System.out.println("dt2: " + dt2);
-//			System.out.println("now: " + thisDay);
 		}
 	}
-
 }

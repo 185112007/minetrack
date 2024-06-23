@@ -1,7 +1,7 @@
 package tr.com.minesoft.minetrack.model.lists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import tr.com.minesoft.minetrack.db.DAOHelper;
@@ -11,9 +11,8 @@ import tr.com.minesoft.minetrack.model.Tracked;
 public class MachineList {
 	private final static MachineList machineListInstance = new MachineList();
 
-	private final HashMap<String, Machine> mapOfMachines;
+	private final Map<String, Machine> mapOfMachines;
 
-	// constructor
 	private MachineList() {
 		mapOfMachines = Objects.requireNonNull(DAOHelper.getMachineDAO()).get(null);
 	}
@@ -22,7 +21,7 @@ public class MachineList {
 		return machineListInstance;
 	}
 
-	public HashMap<String, Machine> getList() {
+	public Map<String, Machine> getList() {
 		return mapOfMachines;
 	}
 
@@ -35,7 +34,7 @@ public class MachineList {
 		return false;
 	}
 
-	public boolean remove(ArrayList<String> tagIdList) {
+	public boolean remove(List<String> tagIdList) {
 		if (Objects.requireNonNull(DAOHelper.getMachineDAO()).delete(tagIdList)) {
 			TrackedList.getInstance().remove(tagIdList);
 			for (String key : tagIdList) {

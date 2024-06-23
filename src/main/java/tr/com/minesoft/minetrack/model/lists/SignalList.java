@@ -1,6 +1,5 @@
 package tr.com.minesoft.minetrack.model.lists;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,7 +41,8 @@ public class SignalList {
 
                 if (positioned) {
                     System.out.println("positioned");
-                    HashMap<String, Tracked> mapOfTracked = TrackedList.getInstance().getList();
+                    Map<String, Tracked> mapOfTracked = TrackedList.getInstance().getList();
+                    parent.getFrame().getMapPane().reset();
                     parent.getFrame().setTrackedModel(mapOfTracked);
                 }
             }

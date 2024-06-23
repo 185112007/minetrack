@@ -1,14 +1,12 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -17,10 +15,6 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.Signal;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class SignalDAO implements DAO<Signal, String> {
 
 	@Override
@@ -76,20 +70,23 @@ public class SignalDAO implements DAO<Signal, String> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<String> list) {
-		// TODO Auto-generated method stub
+	public boolean delete(List<String> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<String, Signal> get(String[] params) {
+	public Map<String, Signal> get(String[] params) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<Signal> get(String tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public List<Signal> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<Signal> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

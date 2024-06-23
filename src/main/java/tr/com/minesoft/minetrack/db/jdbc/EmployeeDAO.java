@@ -1,6 +1,3 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
@@ -9,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -19,10 +18,6 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.Employee;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class EmployeeDAO implements DAO<Employee, String> {
 
 	@Override
@@ -76,7 +71,7 @@ public class EmployeeDAO implements DAO<Employee, String> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<String> tagList) {
+	public boolean delete(List<String> tagList) {
 		boolean result = false;
 		String table = "employee";
 		String column = "tagid";
@@ -101,8 +96,8 @@ public class EmployeeDAO implements DAO<Employee, String> {
 	}
 
 	@Override
-	public HashMap<String, Employee> get(String[] params) {
-		HashMap<String, Employee> employeeMap = new HashMap<>();
+	public Map<String, Employee> get(String[] params) {
+		Map<String, Employee> employeeMap = new HashMap<>();
 
 		String sqlQuery = "SELECT tcno, fname, lname, role, tagid FROM employee";
 		
@@ -125,7 +120,12 @@ public class EmployeeDAO implements DAO<Employee, String> {
 	}
 
 	@Override
-	public ArrayList<Employee> get(String tid, DateTime dt1, DateTime dt2) {
+	public List<Employee> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<Employee> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 }

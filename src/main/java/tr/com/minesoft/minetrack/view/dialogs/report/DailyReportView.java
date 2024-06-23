@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -36,9 +36,7 @@ import tr.com.minesoft.minetrack.model.Tracked;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
 
 public class DailyReportView extends JDialog {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private JTable table;
@@ -57,11 +55,8 @@ public class DailyReportView extends JDialog {
 		JPanel panel = new JPanel(new GridBagLayout());
 		this.getContentPane().add(panel);
 
-		//
 		DefaultTableModel model = new DefaultTableModel() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -79,12 +74,8 @@ public class DailyReportView extends JDialog {
 		model.addColumn(Messages.getString("DailyReportView.entertime")); //$NON-NLS-1$
 		model.addColumn(Messages.getString("DailyReportView.exittime")); //$NON-NLS-1$
 		model.addColumn(Messages.getString("DailyReportView.date")); //$NON-NLS-1$
-		// model.addColumn("Date");
 
-		//
 		addDataTo(model);
-
-		//
 
 		JScrollPane tableScrollPane = new JScrollPane(table);
 		tableScrollPane.setPreferredSize(new Dimension(650, 350));
@@ -126,11 +117,8 @@ public class DailyReportView extends JDialog {
 		this.setVisible(true);
 	}
 
-	/**
-	 * @param model
-	 */
 	private void addDataTo(DefaultTableModel model) {
-		HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
+		Map<String, Tracked> trackedList = TrackedList.getInstance().getList();
 
 		// tarih aralıgını gungun sorgu yap
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(Messages.getString("DailyReportView.datepattern")); //$NON-NLS-1$
@@ -149,7 +137,7 @@ public class DailyReportView extends JDialog {
 				DateTime date2 = date1.plusDays(1);
 				String dateStr1 = outputFormatter.print(date1);
 				String dateStr2 = outputFormatter.print(date2);
-				HashMap<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
+				Map<Integer, DateTime> dates = Objects.requireNonNull(DAOHelper.getDailyReportDAO())
 						.get(new String[] {tid, dateStr1, dateStr2 }); //$NON-NLS-1$
 
 				if (!dates.isEmpty()) {
@@ -167,9 +155,6 @@ public class DailyReportView extends JDialog {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	private void setDefaultDate() {
 		UtilDateModel model1 = new UtilDateModel();
 		model1.setSelected(true);
@@ -246,7 +231,6 @@ public class DailyReportView extends JDialog {
 		panel.setBorder(compound);
 
 		panel.setPreferredSize(new Dimension(650, 150));
-		// panel.revalidate();
 		return panel;
 	}
 

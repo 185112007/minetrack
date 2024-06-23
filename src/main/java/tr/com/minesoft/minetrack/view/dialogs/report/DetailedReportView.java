@@ -6,8 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.BorderFactory;
@@ -41,9 +41,7 @@ import tr.com.minesoft.minetrack.model.lists.RFIDReaderList;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
 
 public class DetailedReportView extends JDialog {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private JTable table;
@@ -61,11 +59,8 @@ public class DetailedReportView extends JDialog {
 		JPanel panel = new JPanel(new GridBagLayout());
 		this.getContentPane().add(panel);
 
-		//
 		DefaultTableModel model = new DefaultTableModel() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -114,9 +109,7 @@ public class DetailedReportView extends JDialog {
 
 		this.setBounds(dimension.width / 2 - width / 2, dimension.height / 2 - height / 2, width, height);
 
-		//
 		addDataTo(model);
-		//
 
 		this.center(jFrame);
 		this.pack();
@@ -134,7 +127,7 @@ public class DetailedReportView extends JDialog {
 
 		adSoyad = new JComboBox<>();
 
-		HashMap<String, Tracked> trackedList = TrackedList.getInstance().getList();
+		Map<String, Tracked> trackedList = TrackedList.getInstance().getList();
 		for (String tid : trackedList.keySet()) {
 			adSoyad.addItem(trackedList.get(tid));
 		}
@@ -189,7 +182,6 @@ public class DetailedReportView extends JDialog {
 		panel.setBorder(compound);
 
 		panel.setPreferredSize(new Dimension(650, 150));
-		// panel.revalidate();
 		return panel;
 	}
 
@@ -200,9 +192,6 @@ public class DetailedReportView extends JDialog {
 		this.setLocation(x, y);
 	}
 
-	/**
-	 * 
-	 */
 	private void setDefaultDate() {
 		UtilDateModel model1 = new UtilDateModel();
 		model1.setSelected(true);
@@ -211,11 +200,8 @@ public class DetailedReportView extends JDialog {
 		entryDate1 = datePicker1.getJFormattedTextField();
 	}
 
-	/**
-	 * @param model
-	 */
 	private void addDataTo(DefaultTableModel model) {
-		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		Map<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 
 		// tarih sorgu yap
 		DateTimeFormatter formatter = DateTimeFormat.forPattern(Messages.getString("DailyReportView.datepattern"));
@@ -230,7 +216,7 @@ public class DetailedReportView extends JDialog {
 			String lname = parts[1];
 			String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-			ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
+			List<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
 			for (TimeAndRid o : list) {
 

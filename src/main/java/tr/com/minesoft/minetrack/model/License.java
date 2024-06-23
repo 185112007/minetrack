@@ -1,7 +1,7 @@
 package tr.com.minesoft.minetrack.model;
 
 import java.util.Base64;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -36,7 +36,7 @@ public class License {
 	}
 
 	private void init() {
-		HashMap<Integer, License> licenseMap = DAOHelper.getLicenseDAO().get(null);
+		Map<Integer, License> licenseMap = DAOHelper.getLicenseDAO().get(null);
 
 		License license = licenseMap.get(0);
 

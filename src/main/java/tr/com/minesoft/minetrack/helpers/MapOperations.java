@@ -1,9 +1,7 @@
 package tr.com.minesoft.minetrack.helpers;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
@@ -33,13 +31,13 @@ import org.locationtech.jts.geom.Point;
 
 public class MapOperations {
 	public static final int VALID_SIGNAL_DURATION_MS = 300000;
-	private static ArrayList<SimpleFeature> list;
+	private static List<SimpleFeature> list;
 	private static TrackedLayer trackedLayer;
 	public static Style style;
 	public static SimpleFeatureType TYPE;
 	public static ListFeatureCollection collection;
 
-	public static ArrayList<SimpleFeature> getList() {
+	public static List<SimpleFeature> getList() {
 		return list;
 	}
 
@@ -83,14 +81,14 @@ public class MapOperations {
 		Rule rule = styleBuilder.createRule(textSymb);
 		// end
 		// apply rule
-		style.featureTypeStyles().get(0).rules().add(rule);
+		style.featureTypeStyles().getFirst().rules().add(rule);
 		trackedLayer = new TrackedLayer(collection, style);
 		trackedLayer.setTitle(Messages.getString("MapOperations.10"));
 		return trackedLayer;
 	}
 
 	public static void refreshTrackedLayer(UI parent) {
-		HashMap<String, Tracked> trackMap = TrackedList.getInstance().getList();
+		Map<String, Tracked> trackMap = TrackedList.getInstance().getList();
 
 		int counter = 0;
 		for (String trackedKey : trackMap.keySet()) {
@@ -123,7 +121,7 @@ public class MapOperations {
 			}
 		}
 		if (counter != 0) {
-			trackedLayer.updated();
+			parent.getFrame().getMapPane().reset();
 			parent.getFrame().setTrackedModel(trackMap);
 		}
 	}

@@ -9,7 +9,7 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -29,9 +29,6 @@ import tr.com.minesoft.minetrack.model.lists.EmployeeList;
 
 public class AddEmployeeView extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField tcTextField;
 	private JTextField fnameTextField;
@@ -52,9 +49,7 @@ public class AddEmployeeView extends JDialog {
 		this.getContentPane().add(panel);
 
 		DefaultTableModel model = new DefaultTableModel() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -72,7 +67,7 @@ public class AddEmployeeView extends JDialog {
 		model.addColumn(Messages.getString("AddEmployeeView.role"));
 		model.addColumn(Messages.getString("AddEmployeeView.tagid"));
 
-		HashMap<String, Employee> tagIdList = EmployeeList.getInstance().getList();
+		Map<String, Employee> tagIdList = EmployeeList.getInstance().getList();
 
 		for (String tid : tagIdList.keySet()) {
 			Employee emp = tagIdList.get(tid);
@@ -85,7 +80,6 @@ public class AddEmployeeView extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				// i = the index of the selected row
 				int i = table.getSelectedRow();
 
 				tcTextField.setText(model.getValueAt(i, 0).toString());

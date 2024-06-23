@@ -3,8 +3,8 @@ package tr.com.minesoft.minetrack.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.JButton;
@@ -33,12 +33,6 @@ public class DetailedReportController implements ActionListener {
 		this.parent = parent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	public void actionPerformed(final ActionEvent e) {
 		JButton jButton = (JButton) e.getSource();
 		DefaultTableModel model = (DefaultTableModel) parent.getTable().getModel();
@@ -52,7 +46,6 @@ public class DetailedReportController implements ActionListener {
 			exportModel(model);
 			break;
 		default:
-			//System.out.println("default case");
 		}
 	}
 
@@ -68,16 +61,12 @@ public class DetailedReportController implements ActionListener {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 
-//	    JTable table = parent.getTable();
-//	    DefaultTableModel newModel = model;
-
 			Export.toExcel(parent.getTable(), selectedFile);
-			//System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 		}
 	}
 
 	private void showPersonelReport(final DefaultTableModel model) {
-		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		Map<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 
 		model.setRowCount(0);
 
@@ -93,7 +82,7 @@ public class DetailedReportController implements ActionListener {
 		String lname = parts[1];
 		String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-		ArrayList<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
+		List<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
 		for (TimeAndRid o : list) {
 

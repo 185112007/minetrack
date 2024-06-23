@@ -72,6 +72,17 @@ CREATE TABLE signalmap
     maxrssi numeric
 );
 
+-- Table: location
+CREATE TABLE location
+(
+    id serial primary key,
+    x double precision,
+    y double precision,
+    tid character varying(20),
+    full_name character varying(50),
+    date_time timestamp
+);
+
 
 --insert new account
 INSERT INTO account(
@@ -87,12 +98,8 @@ VALUES ('aP2dg/Hfp8g=', 'nNt/M9A/Hpcp1BXXjDZ1HQ==');
 INSERT INTO signalmap(
     pid, rid, minrssi, maxrssi)
 VALUES
-    (0, '242303240006', -120, -75),
-    (1, '242303240006', -74, 0),
-    (2, '242303240006', -120, -75),
-    (3, '242303240007', -120, -75),
-    (4, '242303240007', -74, 0),
-    (5, '242303240007', -120, -75)
+    (0, '242312220006', -120, 0),
+    (1, '242312220007', -120, 0)
 ;
 
 -- docker exec -i pg_mine /usr/bin/pg_dump -U mine minetrack > minetrack_01042024.sql

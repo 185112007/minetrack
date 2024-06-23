@@ -1,6 +1,5 @@
 package tr.com.minesoft.minetrack.threads;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,7 +54,7 @@ public class ThreadManager {
 		mapOfSignalList.clear();
 
 		// update state of tracked
-		HashMap<String, Tracked> mapOfTracked = TrackedList.getInstance().getList();
+		Map<String, Tracked> mapOfTracked = TrackedList.getInstance().getList();
 		for (String key : mapOfTracked.keySet()) {
 			Tracked tr = mapOfTracked.get(key);
 			tr.setState(false);
@@ -65,7 +64,7 @@ public class ThreadManager {
 		}
 
 		// update state of readers
-		HashMap<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		Map<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 		for (String key : mapOfReaders.keySet()) {
 			RFIDReader r = mapOfReaders.get(key);
 			r.setStatus(false);
@@ -74,7 +73,7 @@ public class ThreadManager {
 		// delete employees from employeelayer
 		TrackedLayer konumLayer = MapOperations.getTrackedLayer();
 		MapOperations.getList().clear();
-		konumLayer.updated();
+		parent.getFrame().getMapPane().reset();
 
 		// clear employee table
 		parent.getFrame().clearTrackedModel();
