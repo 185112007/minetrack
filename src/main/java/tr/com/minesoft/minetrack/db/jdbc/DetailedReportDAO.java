@@ -5,8 +5,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -15,40 +17,36 @@ import tr.com.minesoft.minetrack.helpers.TimeAndRid;
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 
-public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
+public class DetailedReportDAO implements DAO<TimeAndRid, String> {
 
 	@Override
 	public boolean insert(TimeAndRid t) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean update(TimeAndRid t, String[] params) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
-		// TODO Auto-generated method stub
+	public boolean delete(List<String> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, TimeAndRid> get(String[] params) {
-		// TODO Auto-generated method stub
+	public Map<String, TimeAndRid> get(String[] params) {
 		return null;
 	}
 
 	@Override
-	public ArrayList<TimeAndRid> get(int tid, DateTime dt1, DateTime dt2) {
+	public List<TimeAndRid> get(String tid, DateTime dt1, DateTime dt2) {
 
-		ArrayList<TimeAndRid> list = new ArrayList<>();
+		List<TimeAndRid> list = new ArrayList<>();
 
 		String sqlQuery = "SELECT \"time\", rid\r\n" + 
 				"  FROM signal\r\n" + 
-				"  WHERE tid = " + tid + " AND time >= '"+dt1+"' \r\n" + 
+				"  WHERE tid = '" + tid + "' AND time >= '"+dt1+"' \r\n" +
 				"  and time < '" + dt2 +"'";
 		Connection con = null;
 		Statement statement = null;
@@ -62,7 +60,7 @@ public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
 			while (rs.next()) {
 				Timestamp timeStamp = rs.getTimestamp("time");
 				DateTime dt = new DateTime(timeStamp);
-				int readerID = rs.getInt("rid");
+				String readerID = rs.getString("rid");
 				list.add(new TimeAndRid(dt, readerID));
 			}
 
@@ -78,6 +76,11 @@ public class DetailedReportDAO implements DAO<TimeAndRid, Integer> {
 		}
 		
 		return list;
+	}
+
+	@Override
+	public List<TimeAndRid> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

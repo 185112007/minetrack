@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
-import tr.com.minesoft.minetrack.view.dialogs.LicenseView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.LicenseView;
 
 public class LicenseViewController implements ActionListener {
 
@@ -25,11 +25,9 @@ public class LicenseViewController implements ActionListener {
 		String name = jButton.getName();
 		switch (name) {
 		case "close":
-			//System.out.println("close this dialog");
 			parent.closeThisDialog();
 			break;
 		case "changeLicense":
-			//System.out.println("changeLicense");
 			parent.showUpdateLicenseView();
 			break;
 		default:

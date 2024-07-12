@@ -3,6 +3,7 @@ package tr.com.minesoft.minetrack.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -13,7 +14,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.Employee;
 import tr.com.minesoft.minetrack.model.lists.EmployeeList;
-import tr.com.minesoft.minetrack.view.dialogs.AddEmployeeView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddEmployeeView;
 
 public class AddEmployeeViewController implements ActionListener {
 
@@ -58,24 +59,24 @@ public class AddEmployeeViewController implements ActionListener {
 			String fname = model.getValueAt(selectedRow, 1).toString();
 			String lname = model.getValueAt(selectedRow, 2).toString();
 			String role = model.getValueAt(selectedRow, 3).toString();
-			int tid = Integer.parseInt(model.getValueAt(selectedRow, 4).toString());
+			String tid = model.getValueAt(selectedRow, 4).toString();
 
 			long tcnoNew = Long.parseLong(parent.getTcTextField().getText());
 			String fnameNew = parent.getFnameTextField().getText();
 			String lnameNew = parent.getLnameTextField().getText();
 			String roleNew = parent.getRoleTextField().getText();
-			int tidNew = Integer.parseInt(parent.getTagidTextField().getText());
+			String tidNew = parent.getTagidTextField().getText();
 
 			// eski verilerde degisiklik var mi?
 			if ((tcno == tcnoNew )&& (!fname.equals(fnameNew) || !lname.equals(lnameNew) || !role.equals(roleNew)
-					|| tid != tidNew)) {
+					|| !Objects.equals(tid, tidNew))) {
 				// update islemi basariyla gerceklesti mi?
 				if (EmployeeList.getInstance().update(new Employee(tcnoNew, fnameNew, lnameNew, roleNew, tidNew),tid)) {
 					model.setValueAt("" + tcnoNew, selectedRow, 0);
 					model.setValueAt(fnameNew, selectedRow, 1);
 					model.setValueAt(lnameNew, selectedRow, 2);
 					model.setValueAt(roleNew, selectedRow, 3);
-					model.setValueAt("" + tidNew, selectedRow, 4);
+					model.setValueAt(tidNew, selectedRow, 4);
 					JOptionPane.showMessageDialog(parent.getComponent(0),
 							Messages.getString("AddEmployeeViewController.successful"), //$NON-NLS-1$
 							Messages.getString("AddEmployeeViewController.updated"), //$NON-NLS-1$
@@ -97,20 +98,15 @@ public class AddEmployeeViewController implements ActionListener {
 		}
 	}
 
-	/**
-	 * @param model
-	 */
 	private void deleteRowsFromTable(final DefaultTableModel model) {
-		//System.out.println("delete"); //$NON-NLS-1$
-
 		// start remove from table
 		int[] rows = parent.getTable().getSelectedRows();
 		if (rows.length > 0) {
-			ArrayList<Integer> tagList = new ArrayList<>();
+			ArrayList<String> tagList = new ArrayList<>();
 
 			for (int i = 0; i < rows.length; i++) {
 
-				int tid = Integer.parseInt(model.getValueAt(rows[i], 4).toString());
+				String tid = model.getValueAt(rows[i], 4).toString();
 
 				tagList.add(tid);
 
@@ -138,11 +134,11 @@ public class AddEmployeeViewController implements ActionListener {
 
 		Employee emp = null;
 
-		long tcno = Long.valueOf(parent.getTcTextField().getText());
+		long tcno = Long.parseLong(parent.getTcTextField().getText());
 		String fname = parent.getFnameTextField().getText();
 		String lname = parent.getLnameTextField().getText();
 		String role = parent.getRoleTextField().getText();
-		int tid = Integer.parseInt(parent.getTagidTextField().getText());
+		String tid = parent.getTagidTextField().getText();
 		try {
 			emp = new Employee(tcno, fname, lname, role, tid);
 		} catch (NumberFormatException e) {

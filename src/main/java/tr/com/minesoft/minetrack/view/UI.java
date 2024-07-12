@@ -22,58 +22,42 @@ import tr.com.minesoft.minetrack.helpers.Login;
 import tr.com.minesoft.minetrack.helpers.impl.AddLayerImpl;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.RFIDReader;
-import tr.com.minesoft.minetrack.view.dialogs.AddEmployeeView;
-import tr.com.minesoft.minetrack.view.dialogs.AddMachineView;
-import tr.com.minesoft.minetrack.view.dialogs.AdminView;
-import tr.com.minesoft.minetrack.view.dialogs.ContactView;
-import tr.com.minesoft.minetrack.view.dialogs.DailyReportView;
-import tr.com.minesoft.minetrack.view.dialogs.DetailedReportView;
-import tr.com.minesoft.minetrack.view.dialogs.LicenseInfoView;
-import tr.com.minesoft.minetrack.view.dialogs.LicenseView;
-import tr.com.minesoft.minetrack.view.dialogs.PersonalReportView;
-import tr.com.minesoft.minetrack.view.dialogs.SettingsView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddEmployeeView;
+import tr.com.minesoft.minetrack.view.dialogs.personal_management.AddMachineView;
+import tr.com.minesoft.minetrack.view.dialogs.report.SimulationReportView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.AdminView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DailyReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DetailedReportView;
+import tr.com.minesoft.minetrack.view.dialogs.help.LicenseInfoView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.LicenseView;
+import tr.com.minesoft.minetrack.view.dialogs.report.PersonalReportView;
+import tr.com.minesoft.minetrack.view.dialogs.settings.SettingsView;
 import tr.com.minesoft.minetrack.view.frames.MineTrackFrame;
-import tr.com.minesoft.minetrack.view.msgdialogs.ReaderStatus;
-import tr.com.minesoft.minetrack.view.msgdialogs.TerminalStatus;
+import tr.com.minesoft.minetrack.view.dialogs.status.ReaderStatus;
+import tr.com.minesoft.minetrack.view.dialogs.status.TerminalStatus;
 
-/**
- * 
- * @author Gafur Hayytbayev
- *
- */
-
-// View Class
 public final class UI {
-
 	private final MineTrackFrame mapFrame;
 	private final MapContent map;
 	private final JMenuBar menuBar;
-
 	private JMenuItem signalMapSubmenu;
 	private JMenuItem updateLicenseSubmenu;
-
 	private JButton btnStart;
 	private JButton btnStop;
 
-	// contructor
 	public UI(MapContent map) {
 		this.map = map;
 		this.mapFrame = new MineTrackFrame();
 		this.menuBar = new JMenuBar();
 		init();
+	}
 
-	}// end contructor------------------------------------------------
-
-	/**
-	 * 
-	 */
 	private void init() {
-
 		ImageIcon img = new ImageIcon("data/images/tracking.png");
 		mapFrame.setIconImage(img.getImage());
 		mapFrame.setMapContent(map);
 
-		mapFrame.setTitle(Messages.getString("UI.slogan")); //$NON-NLS-1$
+		mapFrame.setTitle(Messages.getString("UI.slogan"));
 		mapFrame.enableToolBar(true);
 		mapFrame.enableStatusBar(true);
 		mapFrame.enableLayerTable(true);
@@ -84,32 +68,31 @@ public final class UI {
 		UIEngine uiControl = new UIEngine(this);
 
 		// file menu bar---------------------------------------------------
-		JMenu fileMenu = new JMenu(Messages.getString("UI.minetrack")); //$NON-NLS-1$
+		JMenu fileMenu = new JMenu(Messages.getString("UI.minetrack"));
 
 		// adding all submenus for status bar
-		JMenuItem addLayerSubmenu = new JMenuItem(Messages.getString("UI.addLayer")); //$NON-NLS-1$
-		addLayerSubmenu.setName("addlayer"); //$NON-NLS-1$
-		JMenuItem exitSubmenu = new JMenuItem(Messages.getString("UI.exitapp")); //$NON-NLS-1$
-		exitSubmenu.setName("exit"); //$NON-NLS-1$
+		JMenuItem addLayerSubmenu = new JMenuItem(Messages.getString("UI.addLayer"));
+		addLayerSubmenu.setName("addlayer");
+		JMenuItem exitSubmenu = new JMenuItem(Messages.getString("UI.exitapp"));
+		exitSubmenu.setName("exit");
 
 		// add action listener
 		addLayerSubmenu.addActionListener(uiControl);
 		exitSubmenu.addActionListener(uiControl);
 
-//	fileMenu.add(addLayerSubmenu); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! daha sonra eklenecek
 		fileMenu.addSeparator();
 		fileMenu.add(exitSubmenu);
 		menuBar.add(fileMenu);
 		// -----------------------------------------------------------------
 
 		// status menu bar--------------------------------------------------
-		JMenu stateMenu = new JMenu(Messages.getString("UI.stateOf")); //$NON-NLS-1$
+		JMenu stateMenu = new JMenu(Messages.getString("UI.stateOf"));
 
 		// adding all submenus
-		JMenuItem dataTerminalSubmenu = new JMenuItem(Messages.getString("UI.terminal")); //$NON-NLS-1$
-		dataTerminalSubmenu.setName("terminal"); //$NON-NLS-1$
-		JMenuItem rfidReaderSubmenu = new JMenuItem(Messages.getString("UI.reader")); //$NON-NLS-1$
-		rfidReaderSubmenu.setName("rfid"); //$NON-NLS-1$
+		JMenuItem dataTerminalSubmenu = new JMenuItem(Messages.getString("UI.terminal"));
+		dataTerminalSubmenu.setName("terminal");
+		JMenuItem rfidReaderSubmenu = new JMenuItem(Messages.getString("UI.reader"));
+		rfidReaderSubmenu.setName("rfid");
 
 		// add action listener
 		dataTerminalSubmenu.addActionListener(uiControl);
@@ -122,13 +105,13 @@ public final class UI {
 		// -------------------------------------------------------------------
 
 		// add data menu bar--------------------------------------------------
-		JMenu addMenu = new JMenu(Messages.getString("UI.add")); //$NON-NLS-1$
+		JMenu addMenu = new JMenu(Messages.getString("UI.add"));
 
 		// adding all submenus
-		JMenuItem employeeSubmenu = new JMenuItem(Messages.getString("UI.employee")); //$NON-NLS-1$
-		employeeSubmenu.setName("emlpoyee"); //$NON-NLS-1$
-		JMenuItem machinesSubmenu = new JMenuItem(Messages.getString("UI.machines")); //$NON-NLS-1$
-		machinesSubmenu.setName("machines"); //$NON-NLS-1$
+		JMenuItem employeeSubmenu = new JMenuItem(Messages.getString("UI.employee"));
+		employeeSubmenu.setName("emlpoyee");
+		JMenuItem machinesSubmenu = new JMenuItem(Messages.getString("UI.machines"));
+		machinesSubmenu.setName("machines");
 
 		// add action listener
 		employeeSubmenu.addActionListener(uiControl);
@@ -141,40 +124,43 @@ public final class UI {
 		// -------------------------------------------------------------------
 
 		// reports menu bar--------------------------------------------------
-		JMenu reportMenu = new JMenu(Messages.getString("UI.reports")); //$NON-NLS-1$
+		JMenu reportMenu = new JMenu(Messages.getString("UI.reports"));
 
 		// adding all submenus
-		JMenuItem dailyReportSubmenu = new JMenuItem(Messages.getString("UI.dailyReports")); //$NON-NLS-1$
-		dailyReportSubmenu.setName("dailyreport"); //$NON-NLS-1$
-		JMenuItem personalReportSubmenu = new JMenuItem(Messages.getString("UI.personelReport")); //$NON-NLS-1$
-		personalReportSubmenu.setName("personalreport"); //$NON-NLS-1$
-		JMenuItem detailedReportSubmenu = new JMenuItem(Messages.getString("UI.detailedReport")); //$NON-NLS-1$
-		detailedReportSubmenu.setName("detailedreport"); //$NON-NLS-1$
+		JMenuItem dailyReportSubmenu = new JMenuItem(Messages.getString("UI.dailyReports"));
+		dailyReportSubmenu.setName("dailyreport");
+		JMenuItem personalReportSubmenu = new JMenuItem(Messages.getString("UI.personelReport"));
+		personalReportSubmenu.setName("personalreport");
+		JMenuItem detailedReportSubmenu = new JMenuItem(Messages.getString("UI.detailedReport"));
+		detailedReportSubmenu.setName("detailedreport");
+		JMenuItem simulationReportSubmenu = new JMenuItem(Messages.getString("UI.simulationReport"));
 
 		// add action listener
 		dailyReportSubmenu.addActionListener(uiControl);
 		personalReportSubmenu.addActionListener(uiControl);
 		detailedReportSubmenu.addActionListener(uiControl);
+		simulationReportSubmenu.addActionListener(event -> new SimulationReportView(this.getFrame()));
 
 		reportMenu.add(dailyReportSubmenu);
 		reportMenu.add(personalReportSubmenu);
 		reportMenu.add(detailedReportSubmenu);
+		reportMenu.add(simulationReportSubmenu);
 
 		menuBar.add(reportMenu);
 		// -------------------------------------------------------------------
 
 		// settings menu bar--------------------------------------------------
-		JMenu settingsMenu = new JMenu(Messages.getString("UI.settings")); //$NON-NLS-1$
+		JMenu settingsMenu = new JMenu(Messages.getString("UI.settings"));
 
 		// adding all submenus
-		JMenuItem adminSubmenu = new JMenuItem(Messages.getString("UI.admin")); //$NON-NLS-1$
+		JMenuItem adminSubmenu = new JMenuItem(Messages.getString("UI.admin"));
 		adminSubmenu.setName("admin");
-		signalMapSubmenu = new JMenuItem(Messages.getString("UI.changeSignalMap")); //$NON-NLS-1$
-		signalMapSubmenu.setName("signalmap"); //$NON-NLS-1$
+		signalMapSubmenu = new JMenuItem(Messages.getString("UI.changeSignalMap"));
+		signalMapSubmenu.setName("signalmap");
 		signalMapSubmenu.setEnabled(false);
 
-		updateLicenseSubmenu = new JMenuItem(Messages.getString("UI.updateLicense")); //$NON-NLS-1$
-		updateLicenseSubmenu.setName("updatelicense"); //$NON-NLS-1$
+		updateLicenseSubmenu = new JMenuItem(Messages.getString("UI.updateLicense"));
+		updateLicenseSubmenu.setName("updatelicense");
 		updateLicenseSubmenu.setEnabled(false);
 
 		// add action listener
@@ -190,24 +176,22 @@ public final class UI {
 		// -------------------------------------------------------------------
 
 		// help menu bar--------------------------------------------------
-		JMenu helpMenu = new JMenu(Messages.getString("UI.help")); //$NON-NLS-1$
+		JMenu helpMenu = new JMenu(Messages.getString("UI.help"));
 
 		// adding all submenus
-		JMenuItem userManualSubmenu = new JMenuItem(Messages.getString("UI.usermanual")); //$NON-NLS-1$
-		userManualSubmenu.setName("usermanual"); //$NON-NLS-1$
-		JMenuItem licenseSubmenu = new JMenuItem(Messages.getString("UI.license")); //$NON-NLS-1$
-		licenseSubmenu.setName("license"); //$NON-NLS-1$
-		JMenuItem aboutSubmenu = new JMenuItem(Messages.getString("UI.contact")); //$NON-NLS-1$
-		aboutSubmenu.setName("contact"); //$NON-NLS-1$
+		JMenuItem userManualSubmenu = new JMenuItem(Messages.getString("UI.usermanual"));
+		userManualSubmenu.setName("usermanual");
+		JMenuItem licenseSubmenu = new JMenuItem(Messages.getString("UI.license"));
+		licenseSubmenu.setName("license");
+		JMenuItem aboutSubmenu = new JMenuItem(Messages.getString("UI.contact"));
+		aboutSubmenu.setName("contact");
 
 		// add action listener
 		userManualSubmenu.addActionListener(uiControl);
 		licenseSubmenu.addActionListener(uiControl);
 		aboutSubmenu.addActionListener(uiControl);
 
-//	helpMenu.add(userManualSubmenu); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1 daha sonra eklenecek
 		helpMenu.add(licenseSubmenu);
-//	helpMenu.add(aboutSubmenu); !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! daha sonra eklenecek
 
 		menuBar.add(helpMenu);
 		// -------------------------------------------------------------------
@@ -215,31 +199,23 @@ public final class UI {
 		// start and stop toolbar ---------------------------------------------
 		JToolBar toolBar = mapFrame.getToolBar();
 
-//		ImageIcon zoomToLayer = new ImageIcon("data/images/zoom-out.png"); //$NON-NLS-1$
-//		
-//		JButton btnZoomToLayer = new JButton(zoomToLayer);
-//		toolBar.add(btnZoomToLayer);
-//		btnZoomToLayer.setName("zoom-to-layer"); //$NON-NLS-1$
-//		btnZoomToLayer.setToolTipText(Messages.getString("UI.zoom-to-layer")); //$NON-NLS-1$
-//		btnZoomToLayer.addActionListener(uiControl);
-
-		ImageIcon iconStart = new ImageIcon("data/images/start_btn.png"); //$NON-NLS-1$
+		ImageIcon iconStart = new ImageIcon("data/images/start_btn.png");
 
 		btnStart = new JButton(iconStart);
 
 		toolBar.addSeparator();
 		toolBar.add(btnStart);
-		btnStart.setName("startbtn"); //$NON-NLS-1$
-		btnStart.setToolTipText(Messages.getString("UI.start")); //$NON-NLS-1$
+		btnStart.setName("startbtn");
+		btnStart.setToolTipText(Messages.getString("UI.start"));
 		btnStart.addActionListener(uiControl);
 
-		ImageIcon stopIcon = new ImageIcon("data/images/stop_btn.png"); //$NON-NLS-1$
+		ImageIcon stopIcon = new ImageIcon("data/images/stop_btn.png");
 		btnStop = new JButton(stopIcon);
 
 		// toolBar.addSeparator();
 		toolBar.add(btnStop);
-		btnStop.setName("stopbtn"); //$NON-NLS-1$
-		btnStop.setToolTipText(Messages.getString("UI.stop")); //$NON-NLS-1$
+		btnStop.setName("stopbtn");
+		btnStop.setToolTipText(Messages.getString("UI.stop"));
 		btnStop.addActionListener(uiControl);
 		disableStopBtn();
 		// ----------------------------------------------------------------------------
@@ -254,7 +230,6 @@ public final class UI {
 
 		mapFrame.setLocationRelativeTo(null);
 		mapFrame.setVisible(true);
-
 	}
 
 	private void setEnabledSettingsubmenu() {
@@ -304,7 +279,7 @@ public final class UI {
 		new TerminalStatus(this, connected);
 	}
 
-	public void showReaderStatus(HashMap<Integer, RFIDReader> readers) {
+	public void showReaderStatus(HashMap<String, RFIDReader> readers) {
 		new ReaderStatus(this, readers);
 	}
 	// ----------------------------------------------------------------
@@ -344,10 +319,6 @@ public final class UI {
 	public void showLicenseView() {
 		LicenseView licenseview = new LicenseView(this.getFrame(), true);
 		licenseview.setVisible(true);
-	}
-
-	public void showContactView() {
-		new ContactView(this.getFrame());
 	}
 
 	public void showLicenseInfoView() {

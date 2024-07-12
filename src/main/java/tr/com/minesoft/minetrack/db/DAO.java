@@ -1,26 +1,21 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.joda.time.DateTime;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 public interface DAO<T, V>
 {
     boolean insert(T t);
 
     boolean update(T t, String[] params);
 
-    boolean delete(ArrayList<V> list);
+    boolean delete(List<V> list);
 
-    HashMap<V, T> get(String[] params);
+    Map<V, T> get(String[] params);
     
-    ArrayList<T> get(int tid, DateTime dt1, DateTime dt2);
+    List<T> get(String tid, DateTime dt1, DateTime dt2);
+    List<T> get(String tid, LocalDateTime dt1, LocalDateTime dt2);
 }

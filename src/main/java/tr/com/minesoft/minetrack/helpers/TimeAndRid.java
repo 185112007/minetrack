@@ -5,9 +5,9 @@ import org.joda.time.DateTime;
 public class TimeAndRid {
 
 	private DateTime dt;
-	private int rid;
+	private String rid;
 
-	public TimeAndRid(DateTime time, int rid) {
+	public TimeAndRid(DateTime time, String rid) {
 		this.dt = time;
 		this.rid = rid;
 	}
@@ -16,7 +16,7 @@ public class TimeAndRid {
 		return dt;
 	}
 
-	public int getRid() {
+	public String getRid() {
 		return rid;
 	}
 }

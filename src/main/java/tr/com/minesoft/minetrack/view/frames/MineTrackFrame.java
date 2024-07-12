@@ -2,7 +2,6 @@ package tr.com.minesoft.minetrack.view.frames;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -32,14 +31,9 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.Tracked;
-import tr.com.minesoft.minetrack.view.abstracts.AbstractMineTrackFrame;
+import tr.com.minesoft.minetrack.view.frames.abstracts.AbstractMineTrackFrame;
 
-@SuppressWarnings("serial")
 public class MineTrackFrame extends AbstractMineTrackFrame {
-
-	/**
-	 * 
-	 */
 
 	private JTable table;
 	private DefaultTableModel trackedModel;
@@ -201,7 +195,7 @@ public class MineTrackFrame extends AbstractMineTrackFrame {
 
 	}
 
-	public void setTrackedModel(HashMap<Integer, Tracked> mapOfTracked) {
+	public void setTrackedModel(Map<String, Tracked> mapOfTracked) {
 		//
 		setTrackedModelLock.lock();
 		try {
@@ -210,8 +204,8 @@ public class MineTrackFrame extends AbstractMineTrackFrame {
 			}
 			trackedModel.setRowCount(0);
 			int id = 0;
-			for (Map.Entry<Integer, Tracked> entry : mapOfTracked.entrySet()) {
-				int tagid = entry.getKey();
+			for (Map.Entry<String, Tracked> entry : mapOfTracked.entrySet()) {
+				String tagid = entry.getKey();
 				Tracked v = entry.getValue();
 				if (v.isState())
 					trackedModel.addRow(new Object[] { id++, v.getFname(), v.getLname(), tagid, v.getKonum() });

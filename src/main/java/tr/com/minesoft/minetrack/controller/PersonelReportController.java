@@ -1,12 +1,9 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -21,12 +18,8 @@ import org.joda.time.format.DateTimeFormatter;
 import tr.com.minesoft.minetrack.db.DAOHelper;
 import tr.com.minesoft.minetrack.helpers.Export;
 import tr.com.minesoft.minetrack.model.Tracked;
-import tr.com.minesoft.minetrack.view.dialogs.PersonalReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.PersonalReportView;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class PersonelReportController implements ActionListener {
 	private final PersonalReportView parent;
 
@@ -34,12 +27,6 @@ public class PersonelReportController implements ActionListener {
 		this.parent = parent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		JButton jButton = (JButton) e.getSource();
@@ -54,7 +41,6 @@ public class PersonelReportController implements ActionListener {
 			exportModel(model);
 			break;
 		default:
-			//System.out.println("default case");
 		}
 	}
 
@@ -71,16 +57,11 @@ public class PersonelReportController implements ActionListener {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 
-//	    JTable table = parent.getTable();
-//	    DefaultTableModel newModel = model;
-
 			Export.toExcel(parent.getTable(), selectedFile);
-			//System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 		}
 	}
 
 	private void showPersonelReport(final DefaultTableModel model) {
-		//System.out.println("show personel report");
 
 		model.setRowCount(0);// tabloyu sifirlmak icin
 
@@ -95,18 +76,14 @@ public class PersonelReportController implements ActionListener {
 		Tracked tracked = (Tracked) (parent.getTagidBox().getItemAt(index));
 
 		if ((dt1.equals(dt2) || dt1.isBefore(dt2)) && (dt1.equals(thisDay) || dt1.isBefore(thisDay))) {
-			//System.out.println("true");
 
 			for (DateTime date1 = dt1; date1.isBefore(dt2.plusDays(1)); date1 = date1.plusDays(1)) {
 				int countOfRows = 0;
 
-				// tid belli
-				// date 1 = date belli
-				// date 2
 				DateTime date2 = date1.plusDays(1);
 				String dateStr1 = outputFormatter.print(date1);
 				String dateStr2 = outputFormatter.print(date2);
-				HashMap<Integer, DateTime> dates = DAOHelper.getDailyReportDAO()
+				Map<Integer, DateTime> dates = DAOHelper.getDailyReportDAO()
 						.get(new String[] { "" + tracked.getTagId(), dateStr1, dateStr2 });
 
 				if (!dates.isEmpty()) {
@@ -123,16 +100,6 @@ public class PersonelReportController implements ActionListener {
 					model.addRow(new Object[] {});
 				}
 			}
-
-//			System.out.println("dt1: " + dt1);
-//			System.out.println("dt2: " + dt2);
-//			System.out.println("now: " + thisDay);
-		} else {
-//			System.out.println("false");
-//			System.out.println("dt1: " + dt1);
-//			System.out.println("dt2: " + dt2);
-//			System.out.println("now: " + thisDay);
 		}
 	}
-
 }

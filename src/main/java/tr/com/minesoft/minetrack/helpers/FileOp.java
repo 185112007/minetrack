@@ -3,15 +3,11 @@ package tr.com.minesoft.minetrack.helpers;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.geotools.data.FileDataStore;
 import org.geotools.data.FileDataStoreFinder;
 import org.geotools.data.simple.SimpleFeatureSource;
-import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.FeatureIterator;
 import org.geotools.map.FeatureLayer;
 import org.geotools.map.Layer;
@@ -23,10 +19,8 @@ import org.geotools.styling.Rule;
 import org.geotools.styling.SLD;
 import org.geotools.styling.Style;
 import org.geotools.styling.StyleBuilder;
-import org.geotools.styling.StyleFactory;
 import org.geotools.styling.TextSymbolizer;
 import org.opengis.feature.simple.SimpleFeature;
-import org.opengis.filter.FilterFactory;
 
 import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
@@ -41,11 +35,11 @@ public class FileOp {
 	private final static String READER_PATH = "data/maps/readers.shp";
 	private final static String SIGNAL_PATH = "data/maps/sinyal.shp";
 
-	static StyleFactory styleFactory = CommonFactoryFinder.getStyleFactory();
-	static FilterFactory filterFactory = CommonFactoryFinder.getFilterFactory();
+	private static Layer mapLayer;
+	private static Layer readersLayer;
+	private static Layer pointsLayer;
 
 	public static void loadFiles(MapContent map) {
-
 		// harita
 		File file1 = new File(MAP_PATH);
 		FileDataStore store;
@@ -55,12 +49,11 @@ public class FileOp {
 
 			Style style = SLD.createSimpleStyle(featureSource.getSchema());
 
-			Layer layer = new FeatureLayer(featureSource, style);
-			map.addLayer(layer);
+			FileOp.mapLayer = new FeatureLayer(featureSource, style);
+			map.addLayer(FileOp.mapLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
-
 		// readers
 		File file2 = new File(READER_PATH);
 		FileDataStore store2;
@@ -73,8 +66,8 @@ public class FileOp {
 			// label for readers
 			Style style = createStyleForReaders();
 
-			Layer layer = new FeatureLayer(featureSource, style);
-			map.addLayer(layer);
+			FileOp.readersLayer = new FeatureLayer(featureSource, style);
+			map.addLayer(FileOp.readersLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
@@ -89,19 +82,21 @@ public class FileOp {
 			setPointList(featureSource);
 
 			Style style = SLD.createSimpleStyle(featureSource.getSchema());
-			Layer layer = new FeatureLayer(featureSource, style);
-			layer.setVisible(false);
-			map.addLayer(layer);
+			FileOp.pointsLayer = new FeatureLayer(featureSource, style);
+			FileOp.pointsLayer.setVisible(false);
+			map.addLayer(FileOp.pointsLayer);
 		} catch (IOException e) {
 			LoggerImpl.getInstance().keepLog(ExceptionToString.convert(e));
 		}
+	}
 
-		// konum
-		map.addLayer(MapOperations.createEmptyLayer());
+	public static void reuseLayers(MapContent map) {
+		map.addLayer(new FeatureLayer(FileOp.mapLayer.getFeatureSource(), FileOp.mapLayer.getStyle()));
+		map.addLayer(new FeatureLayer(FileOp.readersLayer.getFeatureSource(), FileOp.readersLayer.getStyle()));
+		map.addLayer(new FeatureLayer(FileOp.pointsLayer.getFeatureSource(), FileOp.pointsLayer.getStyle()));
 	}
 
 	private static Style createStyleForReaders() {
-
 		// label for readers
 		StyleBuilder styleBuilder = new StyleBuilder();
 		String attributeName = "Location";
@@ -126,30 +121,23 @@ public class FileOp {
 
 	private static void setReaderList(SimpleFeatureSource featureSource) throws IOException {
 		RFIDReaderList readerListInstance = RFIDReaderList.getInstance();
-
 		FeatureIterator<SimpleFeature> featureIterator = featureSource.getFeatures().features();
 
 		SimpleFeature feature;
 		List<?> list;
-		int id;
+		String id;
 		RFIDReader r;
 		while (featureIterator.hasNext()) {
 			feature = featureIterator.next();
-			/*
-			 * System.out.print(feature.getID()); System.out.print(": ");
-			 */
-
 			list = feature.getAttributes();
-			id = Integer.parseInt(list.get(1).toString());
-
+			id = list.get(1).toString();
 			r = new RFIDReader(id, Double.parseDouble(list.get(2).toString()),
 					Double.parseDouble(list.get(3).toString()));
 			r.setGate(Integer.parseInt(list.get(4).toString()));
 			r.setName(list.get(5).toString());
 			readerListInstance.putToMap(id, r);
 		}
-		if (featureIterator != null)
-			featureIterator.close();
+		featureIterator.close();
 	}
 
 	private static void setPointList(SimpleFeatureSource featureSource) throws IOException {
@@ -176,10 +164,10 @@ public class FileOp {
 
 			// set all the signalmap from db to mypoint object
 
-			HashMap<Integer, RFIDReader> ls = RFIDReaderList.getInstance().getList();
-			Iterator<Integer> it = ls.keySet().iterator();
+			Map<String, RFIDReader> ls = RFIDReaderList.getInstance().getList();
+			Iterator<String> it = ls.keySet().iterator();
 			while (it.hasNext()) {
-				int readerID = it.next();
+				String readerID = it.next();
 				String key = "" + index + "-" + readerID;
 
 				if (SignalMapList.getInstance().getList().containsKey(key)) {
@@ -188,12 +176,10 @@ public class FileOp {
 
 					p.setRssiMap(readerID, minrssi, maxrssi);
 				}
-
 			}
 
 			pointList.add(p);
 		}
-		if (featureIterator != null)
-			featureIterator.close();
+		featureIterator.close();
 	}
 }

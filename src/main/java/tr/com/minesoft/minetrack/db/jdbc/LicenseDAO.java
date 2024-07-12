@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -47,10 +49,8 @@ public class LicenseDAO implements DAO<License, Integer> {
 			result = false;
 			if (con != null) {
 				try {
-					//System.err.print("Transaction is being rolled back");
 					con.rollback();
 				} catch (SQLException excep) {
-					//System.out.println("exception is being in roll back");
 					LoggerImpl.getInstance().keepLog(ExceptionToString.convert(excep));
 				}
 			}
@@ -73,13 +73,13 @@ public class LicenseDAO implements DAO<License, Integer> {
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
+	public boolean delete(List<Integer> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, License> get(String[] params) {
-		HashMap<Integer, License> licenseMap = new HashMap<>();
+	public Map<Integer, License> get(String[] params) {
+		Map<Integer, License> licenseMap = new HashMap<>();
 
 		String sqlQuery = "SELECT * FROM license";
 		Connection con = null;
@@ -111,9 +111,13 @@ public class LicenseDAO implements DAO<License, Integer> {
 	}
 
 	@Override
-	public ArrayList<License> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public List<License> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<License> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

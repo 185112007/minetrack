@@ -5,9 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -21,36 +20,39 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 
 	@Override
 	public boolean insert(DateTime t) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean update(DateTime t, String[] params) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
-		// TODO Auto-generated method stub
+	public boolean delete(List<Integer> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, DateTime> get(String[] params) {
+	public Map<Integer, DateTime> get(String[] params) {
 
-		int tid = Integer.parseInt(params[0]);
+		String tid = params[0];
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd-MM-yyyy");
 		DateTime date1 = formatter.parseDateTime(params[1]);
 		DateTime date2 = formatter.parseDateTime(params[2]);
 
-		HashMap<Integer, DateTime> dates = new LinkedHashMap<>();
+		Map<Integer, DateTime> dates = new LinkedHashMap<>();
 
-		String sqlQuery = "(SELECT time " + "FROM signal " + "WHERE tid=" + tid + " AND time BETWEEN '\"" + date1
-				+ "' AND '\"" + date2 + "\"'\r\n" + "ORDER BY time ASC, time ASC LIMIT 1) " + "UNION " + "(SELECT time "
-				+ "FROM signal " + "WHERE tid=" + tid + " AND time BETWEEN '\"" + date1 + "' AND '\"" + date2
-				+ "\"'\r\n" + "ORDER BY time DESC, time DESC LIMIT 1)";
+		String sqlQuery =
+				"(SELECT time " +
+				"FROM signal " +
+				"WHERE tid='" + tid + "' AND time BETWEEN '\"" + date1 + "' AND '\"" + date2 +
+				"\"'\r\n" + "ORDER BY time ASC, time ASC LIMIT 1) " +
+				"UNION " +
+				"(SELECT time " +
+				"FROM signal " +
+				"WHERE tid='" + tid + "' AND time BETWEEN '\"" + date1 + "' AND '\"" + date2 + "\"'\r\n" +
+				"ORDER BY time DESC, time DESC LIMIT 1)";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -81,9 +83,13 @@ public class DailyReportDAO implements DAO<DateTime, Integer> {
 	}
 
 	@Override
-	public ArrayList<DateTime> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public List<DateTime> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<DateTime> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 
 }

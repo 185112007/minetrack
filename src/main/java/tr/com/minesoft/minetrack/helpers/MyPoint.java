@@ -7,7 +7,7 @@ public class MyPoint {
 	private double x;
 	private double y;
 	private int index;
-	private HashMap<Integer, MinMaxRssi> rssiMap = new HashMap<Integer, MinMaxRssi>();
+	private HashMap<String, MinMaxRssi> rssiMap = new HashMap<>();
 
 	public MyPoint(double x, double y, int index) {
 		this.x = x;
@@ -23,16 +23,11 @@ public class MyPoint {
 		return y;
 	}
 
-	public MinMaxRssi getRssiMap(int readerID) {
-		MinMaxRssi mp = rssiMap.get(readerID);
-		if (mp != null) {
-			return mp;
-		} else {
-			return null;
-		}
+	public MinMaxRssi getRssiMap(String readerID) {
+		return rssiMap.get(readerID);
 	}
 
-	public void setRssiMap(int readerID, int minrssi, int maxrssi) {
+	public void setRssiMap(String readerID, int minrssi, int maxrssi) {
 		rssiMap.put(readerID, new MinMaxRssi(minrssi, maxrssi));
 	}
 
@@ -42,14 +37,5 @@ public class MyPoint {
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-	public boolean equals(MyPoint point) {
-		if (point != null) {
-			if (point.getX() == x && point.getY() == y) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

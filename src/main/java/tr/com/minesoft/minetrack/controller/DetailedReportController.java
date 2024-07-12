@@ -3,8 +3,9 @@ package tr.com.minesoft.minetrack.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -23,7 +24,7 @@ import tr.com.minesoft.minetrack.messages.Messages;
 import tr.com.minesoft.minetrack.model.RFIDReader;
 import tr.com.minesoft.minetrack.model.lists.RFIDReaderList;
 import tr.com.minesoft.minetrack.model.lists.TrackedList;
-import tr.com.minesoft.minetrack.view.dialogs.DetailedReportView;
+import tr.com.minesoft.minetrack.view.dialogs.report.DetailedReportView;
 
 public class DetailedReportController implements ActionListener {
 	private final DetailedReportView parent;
@@ -32,12 +33,6 @@ public class DetailedReportController implements ActionListener {
 		this.parent = parent;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-	 */
 	public void actionPerformed(final ActionEvent e) {
 		JButton jButton = (JButton) e.getSource();
 		DefaultTableModel model = (DefaultTableModel) parent.getTable().getModel();
@@ -51,12 +46,10 @@ public class DetailedReportController implements ActionListener {
 			exportModel(model);
 			break;
 		default:
-			//System.out.println("default case");
 		}
 	}
 
 	private void exportModel(final DefaultTableModel model) {
-		//System.out.println("export to exel");
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -68,16 +61,12 @@ public class DetailedReportController implements ActionListener {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
 
-//	    JTable table = parent.getTable();
-//	    DefaultTableModel newModel = model;
-
 			Export.toExcel(parent.getTable(), selectedFile);
-			//System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 		}
 	}
 
 	private void showPersonelReport(final DefaultTableModel model) {
-		HashMap<Integer, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
+		Map<String, RFIDReader> mapOfReaders = RFIDReaderList.getInstance().getList();
 
 		model.setRowCount(0);
 
@@ -91,19 +80,23 @@ public class DetailedReportController implements ActionListener {
 		String[] parts = nameSpaceSurname.split(" ");
 		String fname = parts[0];
 		String lname = parts[1];
-		int tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
+		String tid = TrackedList.getInstance().getTidByNameSurname(fname, lname);
 
-		ArrayList<TimeAndRid> list = DAOHelper.getDetailedReportDAO().get(tid, dt1, dt2);
+		List<TimeAndRid> list = Objects.requireNonNull(DAOHelper.getDetailedReportDAO()).get(tid, dt1, dt2);
 
 		for (TimeAndRid o : list) {
 
 			DateTimeFormatter toHourWithMinute = DateTimeFormat
 					.forPattern(Messages.getString("DailyReportView.timepattern")); //$NON-NLS-1$
 			String time = toHourWithMinute.print(o.getDt());
-			int rid = o.getRid();
-			String readerName = mapOfReaders.get(rid).getName();
+			String rid = o.getRid();
 
-			model.addRow(new Object[] { time, readerName });
+			RFIDReader rfidReader = mapOfReaders.get(rid);
+
+			if (rfidReader != null){
+				String readerName = rfidReader.getName();
+				model.addRow(new Object[] { time, readerName });
+			}
 		}
 	}
 }

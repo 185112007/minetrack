@@ -1,6 +1,9 @@
 package tr.com.minesoft.minetrack.positioning;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.locationtech.jts.geom.Point;
@@ -9,10 +12,11 @@ import org.locationtech.jts.geom.GeometryFactory;
 
 import org.opengis.feature.simple.SimpleFeature;
 
+import tr.com.minesoft.minetrack.db.DAOHelper;
 import tr.com.minesoft.minetrack.helpers.MapOperations;
 import tr.com.minesoft.minetrack.helpers.MyPoint;
 import tr.com.minesoft.minetrack.helpers.PointList;
-import tr.com.minesoft.minetrack.helpers.TrackedLayer;
+import tr.com.minesoft.minetrack.model.RfTagLocation;
 import tr.com.minesoft.minetrack.model.Signal;
 import tr.com.minesoft.minetrack.model.Tracked;
 import tr.com.minesoft.minetrack.model.lists.RFIDReaderList;
@@ -22,7 +26,7 @@ public class Positioning {
 
 	public static boolean findPosition(Signal signal) {
 		boolean positioned = false;
-		int tid = signal.getTid();
+		String tid = signal.getTid();
 		Tracked tracked = TrackedList.getInstance().getList().get(tid);
 
 		if (tracked != null) {
@@ -34,27 +38,26 @@ public class Positioning {
 
 	private static boolean positionWith1Reader(Signal signal, Tracked tracked) {
 		boolean positioned = false;
-		int rid = signal.getRid();
+		String rid = signal.getRid();
 		int rssi = signal.getRssi();
+		double x = 0, y = 0;
 
 		GeometryFactory geomFactory = new GeometryFactory();
-		ArrayList<SimpleFeature> list = MapOperations.getList();
-		TrackedLayer trackedLayer = MapOperations.getTrackedLayer();
+		List<SimpleFeature> list = MapOperations.getList();
 		MyPoint mypoint = null;
 		// daha once konumlandırılmısmı?
-		if (tracked.isState()) // evet
-		{
+		if (tracked.isState()) {// yes
 			for (SimpleFeature feature : list) {
 				String id = feature.getID();
-				if (Integer.parseInt(id) == tracked.getTagId()) {
+				if (Objects.equals(id, tracked.getTagId())) {
 					mypoint = findClosestPointWithPrevSignal(signal, tracked);
 					if (mypoint != null && mypoint.getIndex() != tracked.getPrevPointIndex()) {
+						x = mypoint.getX() + (2 * Math.random() - 1) * 0.00001111d;
+						y = mypoint.getY() + (2 * Math.random() - 1) * 0.00001111d;
 						Point point = geomFactory
-								.createPoint(new Coordinate(mypoint.getX() + (2 * Math.random() - 1) * 0.00001111d,
-										mypoint.getY() + (2 * Math.random() - 1) * 0.00001111d));
+								.createPoint(new Coordinate(x, y));
 						feature.setAttribute("point", point);
 						feature.setAttribute("MyPoint", mypoint);
-						trackedLayer.updated();
 						positioned = true;
 						tracked.setPrevSignal(signal);
 						tracked.setPrevPointIndex(mypoint.getIndex());
@@ -63,27 +66,36 @@ public class Positioning {
 					break;
 				}
 			}
-		} else// hayir
-		{
+		} else { // no
 			mypoint = findFirstClosestPoint(rid, rssi);
 			if (mypoint != null) {
 				// random 5 meters ==> + (2 * Math.random() - 1) * 0.00001111d
+				x = mypoint.getX() + (2 * Math.random() - 1) * 0.00001111d;
+				y = mypoint.getY() + (2 * Math.random() - 1) * 0.00001111d;
 				Point point = geomFactory
-						.createPoint(new Coordinate(mypoint.getX() + (2 * Math.random() - 1) * 0.00001111d,
-								mypoint.getY() + (2 * Math.random() - 1) * 0.00001111d));
+						.createPoint(new Coordinate(x, y));
 				list.add(SimpleFeatureBuilder.build(
 						MapOperations.TYPE, new Object[] { point, tracked.getTagId(),
 								tracked.getFname() + " " + tracked.getLname(), tracked, mypoint },
 						"" + tracked.getTagId()));// type, object, id
 
-				trackedLayer.updated();
 				positioned = true;
 				tracked.setPrevSignal(signal);
 				tracked.setPrevPointIndex(mypoint.getIndex());
-//		tracked.setSolSag(1); // baslangicta soldan saga gidiyor
 				tracked.setState(true);
 				tracked.setKonum(RFIDReaderList.getInstance().getList().get(rid).getName());
 			}
+		}
+
+		if (positioned){
+			Objects.requireNonNull(DAOHelper.getRfTagLocationDAO()).insert(
+					RfTagLocation.builder()
+							.x(x)
+							.y(y)
+							.tagId(tracked.getTagId())
+							.fullName(tracked.getFname() + " " + tracked.getLname())
+							.dateTime(LocalDateTime.now())
+							.build());
 		}
 		return positioned;
 	}
@@ -91,12 +103,12 @@ public class Positioning {
 	private static MyPoint findClosestPointWithPrevSignal(Signal signal, Tracked tr) {
 		MyPoint result = null;
 		int rssi = signal.getRssi();
-		int rid = signal.getRid();
+		String rid = signal.getRid();
 		Signal prevSignal = tr.getPrevSignal();
 		int prevRssi = prevSignal.getRssi();
-		int prevRid = prevSignal.getRid();
+		String prevRid = prevSignal.getRid();
 
-		if (rid == prevRid && rssi == prevRssi) {
+		if (Objects.equals(rid, prevRid) && rssi == prevRssi) {
 			prevSignal = signal; // result = null, konumu degistirme
 		} else {// farklı bir readerdan sinyal aldı
 			prevSignal = signal;
@@ -106,7 +118,7 @@ public class Positioning {
 		return result;
 	}
 
-	private static MyPoint findClosestPoint(int rid, int rssi, Tracked tr) {
+	private static MyPoint findClosestPoint(String rid, int rssi, Tracked tr) {
 		ArrayList<MyPoint> pointList = PointList.getInstance().getList();
 
 		MyPoint result = null;
@@ -151,7 +163,7 @@ public class Positioning {
 		return result;
 	}
 
-	private static MyPoint findFirstClosestPoint(int rid, int rssi) {
+	private static MyPoint findFirstClosestPoint(String rid, int rssi) {
 		ArrayList<MyPoint> pointList = PointList.getInstance().getList();
 
 		MyPoint result = null;

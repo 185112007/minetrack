@@ -1,25 +1,15 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.model;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class Account {
-	private String username;
-	private String password;
-
+	private final String username;
+	private final String password;
 	public Account(String u, String p) {
 		this.username = u;
 		this.password = p;
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
 	public String getPassword() {
 		return password;
 	}

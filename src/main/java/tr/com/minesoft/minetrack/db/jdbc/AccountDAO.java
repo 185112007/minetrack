@@ -1,14 +1,13 @@
-/**
- * 
- */
 package tr.com.minesoft.minetrack.db.jdbc;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -17,35 +16,28 @@ import tr.com.minesoft.minetrack.logging.LoggerImpl;
 import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.Account;
 
-/**
- * @author Gafur Hayytbayev
- *
- */
 public class AccountDAO implements DAO<Account, Integer> {
 
 	@Override
 	public boolean insert(Account t) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean update(Account t, String[] params) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean delete(ArrayList<Integer> list) {
-		// TODO Auto-generated method stub
+	public boolean delete(List<Integer> list) {
 		return false;
 	}
 
 	@Override
-	public HashMap<Integer, Account> get(String[] params) {
-		HashMap<Integer, Account> accountMap = new HashMap<>();
+	public Map<Integer, Account> get(String[] params) {
+		Map<Integer, Account> accountMap = new HashMap<>();
 
-		String sqlQuery = "SELECT * FROM public.account";
+		String sqlQuery = "SELECT * FROM account";
 		Connection con = null;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -76,8 +68,12 @@ public class AccountDAO implements DAO<Account, Integer> {
 	}
 
 	@Override
-	public ArrayList<Account> get(int tid, DateTime dt1, DateTime dt2) {
-		// TODO Auto-generated method stub
+	public List<Account> get(String tid, DateTime dt1, DateTime dt2) {
 		return null;
+	}
+
+	@Override
+	public List<Account> get(String tid, LocalDateTime dt1, LocalDateTime dt2) {
+		return List.of();
 	}
 }
