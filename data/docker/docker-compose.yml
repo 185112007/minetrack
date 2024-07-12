@@ -2,9 +2,10 @@ version: '3.5'
 
 services:
   postgres:
-    image: 'postgres:12-bullseye'
+    image: 'postgres:latest'
     container_name: pg_minetrack
     environment:
+      POSTGRES_DB: minetrack
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
