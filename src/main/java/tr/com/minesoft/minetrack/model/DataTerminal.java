@@ -13,7 +13,7 @@ import tr.com.minesoft.minetrack.logging.util.ExceptionToString;
 import tr.com.minesoft.minetrack.model.lists.SignalList;
 
 public class DataTerminal {
-    private static final String IP = "192.168.0.7";
+    private static final String IP = "192.168.1.2";
     private static final int PORT = 4001;
     private volatile boolean state;
     private DataInputStream input;
